@@ -1,0 +1,68 @@
+
+TORRENTTRADER V3.8.3 INSTALL NOTES (LAST MODIFIED 28th August 2026)
+===================================================================
+
+REQUIREMENTS:
+=============
+- PHP 8.0
+- MYSQL 5+ . Tested and working on 10.11.19-MariaDB-AlmaLinux 8.10
+- We do not advise that register_globals is enabled
+- We do not advise installation in a windows enviroment, however it will work (you may need to adjust paths)
+- It is advised to turn off strict mode in MYSQL before importing the database
+
+INSTALLATION:
+=============
+FRESH INSTALL INSTRUCTIONS ONLY!!!!
+
+1) Copy ALL files to your webserver
+
+2) Import via phpmyadmin "tt.v.3.8.3.by.tt.forum.sql"
+
+3) Edit the file backend/mysql.php to suit your MYSQL connection
+
+4) Edit the file backend/config.php to suit your needs
+- special note should be taken for urls, emails, paths (use check.php if unsure)
+
+5) Remove the following line from config.php: die("You didn't edit your config correctly."); // You MUST remove this line  
+
+6) Apply the following CHMOD's
+777 - cache/
+777 - cache/get_row_count/
+777 - cache/queries/
+777 - cache/diskcache/
+777 - backups/
+777 - uploads/
+777 - uploads/images/
+777 - import/
+600 - censor.txt
+440 - backend/config. chmod to 440 after making all needed edits
+
+7) Run check.php from your browser to check you have configured everything ok
+   check.php is designed for UNIX systems, if you are using WINDOWS it may not report the paths correctly.
+
+8) Now register as a new user on the site.  The first user registered will become administrator
+
+9) If check.php still exists, please remove it or rename.
+A warning will display on the site index until its removed
+
+10) You should properly secure backup-database.php and the backups dir. (htaccess/htpasswd)
+
+11) For torrent-details.php to work properly and scrape data from iMDB, Youtube and TMBD you need to edit
+backent/TTIMDB.php
+
+a) Line #16
+   private $_nodes = ['https://www.omdbapi.com/?apikey=your_own_omdbapi_key&i=%s'];
+
+b) Line #213 and #214
+   $tmdbApiKey    = "your_own_tmdbapi_key";
+   $youtubeApiKey = "your_own_youtube_key";
+
+12) If you want to avoid BOT attacks, there is Cloudflare defense already built into the signup, login and recovery files BUT it is not activated, you need to do it yourself, after several complaints from some members.
+a) But if you will have BOT check from Clodflare just use your own keys in config.php at lines #33 and #34
+$site_config['CLOUDSITEKEY'] = 'YOUR_OWN_CLOUDSITE_KEY';
+$site_config['CLOUDSECRET'] = 'YOUR_OWN_CLOUDSECRET_KEY';
+
+
+13) If you don't like (or it is not will work from some reason) torrent-details.php you can use old one from the past, rename torrent-details.php to another name and rename torrent-details-5.php to right name so it works.
+
+Any problems please visit https://torrentrader.uk
