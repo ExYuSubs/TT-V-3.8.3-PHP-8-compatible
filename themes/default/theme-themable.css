@@ -1,0 +1,459 @@
+/* Theme-themable overrides (place after original theme.css)
+   This file provides CSS variables for light/dark themes and overrides
+   common color properties so the original classes become theme-aware.
+   It intentionally uses the same selectors as the original file to override
+   colors. You can customize the variables below.
+*/
+
+/* --- Variables --- */
+:root{
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #666666;
+  --link: #006699;
+  --link-hover: #003366;
+  --panel-bg-start: #b2e1ff;
+  --panel-bg-end: #66b6fc;
+  --panel-text: #ffffff;
+  --panel-shadow: rgba(0,0,0,0.2);
+  --border: #777777;
+  --input-bg: #eeeeee;
+  --input-border: #777777;
+  --card-bg-start: #ffffff;
+  --card-bg-end: #e5e5e5;
+  --accent-start: #deefff;
+  --accent-end: #98bede;
+  --danger: #ff0000;
+  --table-alt: #f6f6f6;
+  --ttable-head-bg-start: #b2e1ff;
+  --ttable-head-bg-end: #66b6fc;
+  --ttable-head-text: #000000;
+  --shadow-inset: rgba(255,255,255,0.7);
+  --button-text: #0f1111;
+  --button-border: #777;
+}
+
+/* Dark theme variables */
+.dark-theme, .dark-theme :root {
+  --bg: #0b0b0d;
+  --text: #e6e6e6;
+  --muted: #bdbdbd;
+  --link: #6fb7ff;
+  --link-hover: #9fd1ff;
+  --panel-bg-start: #16324a;
+  --panel-bg-end: #0b1a28;
+  --panel-text: #ffffff;
+  --panel-shadow: rgba(0,0,0,0.6);
+  --border: #2f2f2f;
+  --input-bg: #121315;
+  --input-border: #3b3b3b;
+  --card-bg-start: #0f1112;
+  --card-bg-end: #17191a;
+  --accent-start: #122536;
+  --accent-end: #203544;
+  --danger: #ff6b6b;
+  --table-alt: #111313;
+  --ttable-head-bg-start: #1a3a57;
+  --ttable-head-bg-end: #16324a;
+  --ttable-head-text: #ffffff;
+  --shadow-inset: rgba(0,0,0,0.6);
+  --button-text: #e6e6e6;
+  --button-border: #3b3b3b;
+}
+
+/* --- Base element mappings --- */
+body {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* Links */
+a, a:link, a:visited, a:active {
+  color: var(--link) !important;
+}
+a:hover {
+  color: var(--link-hover) !important;
+}
+
+/* Inputs & textarea */
+input, select, textarea {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+  color: var(--text) !important;
+}
+
+/* Navigation & menu */
+.navigation, .myBlock-caption, .myFrame-caption, .ttable_head, .table_head {
+  color: var(--panel-text) !important;
+  background: linear-gradient(to bottom, var(--panel-bg-start) 0%, var(--panel-bg-end) 100%) !important;
+  border: 1px solid var(--border) !important;
+  text-shadow: 0 1px 2px var(--panel-shadow);
+}
+
+/* Generic card / download box / fieldset */
+#downloadbox, fieldset, .myBlock, .myFrame, .download, .buttonS, .buttonZ {
+  background: linear-gradient(to bottom, var(--card-bg-start) 0%, var(--card-bg-end) 100%) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: inset 0 0 0 1px var(--shadow-inset);
+}
+
+/* Buttons appearance */
+.buttonS, .buttonZ, input[type=submit], input[type=button] {
+  color: var(--button-text) !important;
+  border-color: var(--button-border) !important;
+  background: linear-gradient(to bottom, var(--accent-start) 0%, var(--accent-end) 100%) !important;
+}
+
+/* Table columns / panels */
+.ttable_col1, .ttable_col2, .ttable_colx, .table_col1, .table_col2,
+.tr.p-title, tr.f-row, .alt1, .alt2, .alt3 {
+  background: linear-gradient(to bottom, var(--table-alt) 0%, var(--card-bg-end) 100%) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Header / titles */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text) !important;
+}
+
+/* Specific forum / title bars */
+tr.f-title, tr.p-title, .b-title {
+  background: linear-gradient(to bottom, var(--panel-bg-start) 0%, var(--panel-bg-end) 100%) !important;
+  color: var(--panel-text) !important;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+}
+
+/* Shoutbox */
+.shoutbox_body, .shoutbox_noalt, .shoutbox_altx {
+  background-color: var(--input-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* --- navigate: mörkt/ljust-kompatibel --- */
+#navigate {
+  background: linear-gradient(to bottom, var(--card-bg-start) 0%, var(--card-bg-end) 100%) !important;
+  color: var(--text) !important;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--shadow-inset);
+}
+
+#navigate ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+#navigate ul li {
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+#navigate ul li a {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: var(--text) !important;
+  font-family: "Funnel Display", sans-serif;
+  font-weight: 600;
+  background: linear-gradient(to bottom, var(--card-bg-start) 0%, var(--card-bg-end) 100%) !important;
+  transition: background-color 0.25s ease, color 0.25s ease, text-indent 0.25s ease;
+}
+
+#navigate ul li a:hover {
+  color: var(--link-hover) !important;
+  text-indent: 8px;
+  background: linear-gradient(to bottom, var(--accent-start) 0%, var(--accent-end) 100%) !important;
+}
+
+/* Mörkt tema – extra kontrast */
+.dark-theme #navigate ul li a {
+  color: var(--text) !important;
+}
+.dark-theme #navigate ul li a:hover {
+  color: var(--link-hover) !important;
+  background: linear-gradient(to bottom, var(--accent-end) 0%, var(--accent-start) 100%) !important;
+}
+
+/* Error / required */
+.error, .shoutbox_error, .required {
+  color: var(--danger) !important;
+}
+
+/* Small / muted text */
+.nfo, .infobar, .credits, .muted, .menu ul li a {
+  color: var(--muted) !important;
+}
+
+/* Download links inside downloadbox */
+#downloadbox a {
+  color: var(--panel-text) !important;
+}
+
+/* Toggling helper visuals */
+.theme-toggle {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px;
+  height:20px;
+  font-size:14px;
+  max-width:22px;
+  max-height:22px;
+  cursor:pointer;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  float: right;	
+}
+
+/* Ensure fontawesome icons scale but don't exceed 24px */
+.theme-toggle .fa {
+  font-size: 14px;
+  max-width:22px;
+  max-height:22px;
+  line-height: 1;
+}
+
+/* Accessibility: focus styles */
+.theme-toggle:focus {
+  outline: 0px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Make tables and other elements stand out in both themes */
+table, th, td {
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+/* Provide smooth transition */
+* {
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+/* Fallback for elements not explicitly handled: use currentColor where possible */
+.bg-current { background-color: currentColor; }
+
+/* --- Shoutbox: mörkt/ljust-kompatibel + zebra-effekt --- */
+.shoutbox_body,
+.shoutbox_noalt,
+.shoutbox_alt,
+.shoutbox_msgbox {
+  background-color: var(--input-bg) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: inset 0 0 0 1px var(--shadow-inset);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Ljusare/dunklare bakgrunder i ljusläge (zebra) */
+.shoutbox_noalt {
+  background: linear-gradient(to bottom, var(--input-bg) 0%, var(--card-bg-end) 100%) !important;
+}
+.shoutbox_alt {
+  background: linear-gradient(to bottom, var(--card-bg-start) 0%, var(--card-bg-end) 100%) !important;
+}
+
+/* Meddelanderuta 
+.shoutbox_msgbox {
+  background: linear-gradient(to bottom, var(--input-bg) 0%, var(--input-border) 100%) !important;
+}
+*/
+/* Länkar i Shoutbox */
+.shoutbox_body a,
+.shoutbox_noalt a,
+.shoutbox_alt a,
+.shoutbox_msgbox a {
+  color: var(--link) !important;
+  text-decoration: none;
+}
+.shoutbox_body a:hover,
+.shoutbox_noalt a:hover,
+.shoutbox_alt a:hover,
+.shoutbox_msgbox a:hover {
+  color: var(--link-hover) !important;
+  text-decoration: underline;
+}
+
+/* --- Mörkt tema justeringar --- */
+.dark-theme .shoutbox_body,
+.dark-theme .shoutbox_msgbox {
+  background: linear-gradient(to bottom, var(--input-bg) 0%, var(--card-bg-end) 100%) !important;
+}
+
+.dark-theme .shoutbox_noalt {
+  background: linear-gradient(to bottom, rgba(26, 26, 28, 1) 0%, rgba(36, 38, 42, 1) 100%) !important;
+}
+
+.dark-theme .shoutbox_alt {
+  background: linear-gradient(to bottom, rgba(16, 18, 20, 1) 0%, rgba(24, 26, 28, 1) 100%) !important;
+}
+
+/* Extra kontrast för hover och text */
+.dark-theme .shoutbox_noalt:hover,
+.dark-theme .shoutbox_alt:hover {
+  background: linear-gradient(to bottom, var(--accent-start) 0%, var(--accent-end) 100%) !important;
+  color: var(--button-text) !important;
+}
+
+/* --- Slut på Shoutbox --- */
+
+/* --- Torr Buttons: mörkt/ljust-kompatibel --- */
+
+/* Gemensam grundstil för alla torrknappar */
+.Tdl, .Tsiz, .Tsee, .Tdat, .Tlee, .Tcom {
+  font-family: "Funnel Display", sans-serif;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--button-text) !important;
+  background: linear-gradient(to bottom, var(--accent-start) 0%, var(--accent-end) 100%) !important;
+  text-decoration: none;
+  display: inline-block;
+  min-width: 65px;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Hover- och active-effekter */
+.Tdl:hover, .Tsiz:hover, .Tsee:hover, .Tdat:hover, .Tlee:hover, .Tcom:hover {
+  background: linear-gradient(to bottom, var(--accent-end) 0%, var(--accent-start) 100%) !important;
+  color: var(--text) !important;
+  border-color: var(--link);
+}
+
+.Tdl:active, .Tsiz:active, .Tsee:active, .Tdat:active, .Tlee:active, .Tcom:active {
+  position: relative;
+  top: 1px;
+  background: linear-gradient(to bottom, var(--panel-bg-end) 0%, var(--panel-bg-start) 100%) !important;
+}
+
+/* Extra justering för .Tsiz – ljusare variant */
+.Tsiz {
+  background: linear-gradient(to bottom, var(--card-bg-start) 0%, var(--card-bg-end) 100%) !important;
+  color: var(--text) !important;
+}
+
+/* .Tcom – bredare knapp */
+.Tcom {
+  font-size: 14px;
+  padding: 3px 20px 3px 10px;
+  width: 150px !important;
+  min-width: 150px !important;
+  max-width: 150px !important;
+}
+
+/* --- Mörkt tema finjustering --- */
+.dark-theme .Tdl,
+.dark-theme .Tsee,
+.dark-theme .Tdat,
+.dark-theme .Tlee,
+.dark-theme .Tcom {
+  background: linear-gradient(to bottom, var(--accent-end) 0%, var(--accent-start) 100%) !important;
+  color: var(--button-text) !important;
+  border-color: var(--button-border);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.dark-theme .Tsiz {
+  background: linear-gradient(to bottom, var(--card-bg-start) 0%, var(--card-bg-end) 100%) !important;
+  color: var(--text) !important;
+  border-color: var(--border);
+}
+
+.dark-theme .Tdl:hover,
+.dark-theme .Tsiz:hover,
+.dark-theme .Tsee:hover,
+.dark-theme .Tdat:hover,
+.dark-theme .Tlee:hover,
+.dark-theme .Tcom:hover {
+  background: linear-gradient(to bottom, var(--accent-start) 0%, var(--accent-end) 100%) !important;
+  color: var(--panel-text) !important;
+  border-color: var(--link-hover);
+}
+/* --- Slut torr buttons --- */
+
+/* --- Table Row: mörkt/ljust-kompatibel --- */
+table.account, table.accounted {
+  border-spacing: 3px;
+  border-collapse: separate;
+}
+
+/* Grundutseende för cellerna 
+td.css, td.css-right {
+  font-family: "GothamPro", "Funnel Display", sans-serif;
+  font-size: 14px !important;
+  color: var(--text) !important;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: linear-gradient(
+    to bottom,
+    var(--card-bg-start) 0%,
+    var(--card-bg-end) 100%
+  ) !important;
+  box-shadow: inset 0 0 0 1px var(--shadow-inset);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+} */
+
+/* För celler som är högra kolumnen – svagt accentuerad bakgrund 
+td.css-right {
+  background: linear-gradient(
+    to bottom,
+    var(--accent-start) 0%,
+    var(--accent-end) 100%
+  ) !important;
+  color: var(--button-text) !important;
+} */
+
+/* Hover-effekter
+td.css:hover,
+td.css-right:hover {
+  background: linear-gradient(
+    to bottom,
+    var(--accent-start) 0%,
+    var(--accent-end) 100%
+  ) !important;
+  color: var(--button-text) !important;
+  border-color: var(--link-hover);
+} */
+
+/* --- Extra för mörkt tema --- */
+.dark-theme td.css, 
+.dark-theme td.css-right {
+  color: var(--text) !important;
+  border-color: var(--border);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
+}
+
+/* Liten skillnad mellan vänster/höger cell i mörkt tema */
+.dark-theme td.css {
+  background: linear-gradient(
+    to bottom,
+    var(--card-bg-start) 0%,
+    var(--card-bg-end) 100%
+  ) !important;
+}
+.dark-theme td.css-right {
+  background: linear-gradient(
+    to bottom,
+    var(--panel-bg-start) 0%,
+    var(--panel-bg-end) 100%
+  ) !important;
+  color: var(--panel-text) !important;
+}
+/* --- Slut på Table Row --- */
+
+
+
+
+/* End of theme-themable.css */
+
+

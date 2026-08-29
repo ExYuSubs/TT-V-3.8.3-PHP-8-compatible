@@ -1,0 +1,47 @@
+<?php
+
+#================================#
+#       TorrentTrader 3.8.3      #
+#  http://torrenttrader.uk       #
+#--------------------------------#
+#       Created by M-Jay         #
+#       Modified by MicroMonkey, #
+#       Coco, Botanicar          #
+#================================#
+
+require_once("backend/functions.php");
+require_once("backend/block_registry.php");
+dbconn(true);
+loggedinonly();
+stdhead(T_("HOME"));
+
+//check
+	if (file_exists("check.php") && isset($CURUSER["class"]) && $CURUSER["class"] >= 7){
+	show_error_msg("WARNING", "Check.php still exists, please delete or rename the file as it could pose a security risk<br /><br /><a href='check.php'>View Check.php</a> - Use to check your config!<br /><br />",0);
+}
+
+//===| Start of Layout editor link |===//
+if (isset($CURUSER["class"]) && $CURUSER["class"] >= LAYOUT_EDITOR_CLASS) {
+?>
+	<div style="background:#161b22;border:1px solid #2a3140;border-radius:8px;padding:10px 14px;margin:0 0 14px;color:#d7dde5;font-size:13px;">
+		<?php if (isset($_GET['layout']) && $_GET['layout'] === 'saved'): ?>
+			<div style="color:#35d07f;margin-bottom:6px;">Den nya blocklayouten har sparats och visas nu för alla medlemmar.</div>
+		<?php endif; ?>
+		<a href="edit_layout.php" style="color:#4f8cff;text-decoration:none;">Redigera blocklayout &rarr;</a>
+	</div>
+<?php
+}
+//====| End of Layout editor link |====//
+
+//===| Render blocks in the currently saved order |===//
+$block_order = get_live_block_order();
+foreach ($block_order as $__block_key) {
+	if (isset($GLOBALS['BLOCK_REGISTRY'][$__block_key])) {
+		require_once($GLOBALS['BLOCK_REGISTRY'][$__block_key]['file']);
+	}
+}
+//====| End of block rendering |====//
+
+
+stdfoot();
+?>
