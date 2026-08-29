@@ -43,7 +43,7 @@ $site_config['avatar_dir'] = '/avatars';   // Dir where avatars are stored. chmo
 
 $site_config['SITENAME'] = 'TT v 3.8.3 by TT Forum guys - Page';					//Site Name
 $site_config['SITEEMAIL'] = 'ttv383@yourpage.com';		//Emails will be sent from this address
-$site_config['SITEURL'] = 'https://luigi.eu.org';	//Main Site URL
+$site_config['SITEURL'] = 'https://yourpage.com';	//Main Site URL
 $site_config['default_language'] = "1";						//DEFAULT LANGUAGE ID
 $site_config['default_theme'] = "1";						//DEFAULT THEME ID
 $site_config['CHARSET'] = "utf-8";						//Site Charset
