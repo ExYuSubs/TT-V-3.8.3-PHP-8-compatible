@@ -65,4 +65,4 @@ $site_config['CLOUDSECRET'] = 'YOUR_OWN_CLOUDSECRET_KEY';
 
 13) If you don't like (or it is not will work from some reason) torrent-details.php you can use old one from the past, rename torrent-details.php to another name and rename torrent-details-5.php to right name so it works.
 
-Any problems please visit https://torrentrader.uk
+Any problems please visit https://torrenttrader.uk
