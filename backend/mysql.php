@@ -16,8 +16,8 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
 
 // Change the settings below to match your MySQL/MariaDB server connection settings
 $mysql_host = getenv('MYSQL_HOST') ?: 'localhost'; // Default to 'localhost'
-$mysql_user = getenv('MYSQL_USER') ?: 'luigi_usr';        // Username to connect
-$mysql_pass = getenv('MYSQL_PASS') ?: 'tt_12345';        // Password to connect
-$mysql_db = getenv('MYSQL_DB') ?: 'luigi_db';            // Database name
+$mysql_user = getenv('MYSQL_USER') ?: 'username';        // Username to connect
+$mysql_pass = getenv('MYSQL_PASS') ?: 'password';        // Password to connect
+$mysql_db = getenv('MYSQL_DB') ?: 'database';            // Database name
 
 ?>
