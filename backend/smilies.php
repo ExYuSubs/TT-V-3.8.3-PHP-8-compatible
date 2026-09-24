@@ -20,13 +20,13 @@ $smilies = [
   ":D"        =>   "grin.gif",
   ":lol:"     =>   "lol.gif",
   ":rofl:"    =>   "rofl.gif",
-  ":S"        =>   "sarcastic.gif",
+  ":sarcastic:"        =>   "sarcastic.gif",
   ":w00t:"    =>   "w00t.gif",
   ":-/"       =>   "confused.gif",
   ":|"        =>   "noexpression.gif",
   ":("        =>   "sad.gif",
   ":P"        =>   "tongue.gif",
-  ":8)"       =>   "cool.gif",
+  ":cool:"       =>   "cool.gif",
   ":wave:"    =>   "wave.gif",
   ":ok:"      =>   "ok.gif",
   ":bad:"     =>   "bad.gif",
@@ -101,6 +101,8 @@ $smilies = [
   ":sheep1:"  =>   "sheep1.gif",
   ":newyear:" =>   "newyear.gif",
   ":xmas:"    =>   "xmas.gif",
+  ":ras:"    =>   "ras.gif",
+  ":cry:"    =>   "cry.gif",
 ];
 
 
@@ -221,16 +223,11 @@ function insert_smilies_frame($site_config, $smilies) {
 </head>
 <body>
 <div class="wrap">
-	<div class="header">
-		<h1>Insert a Smiley</h1>
-		<div class="subtitle">Click an icon to insert it into your post</div>
-	</div>
+	
 	<?php
 	if (isset($_GET['action']) && $_GET['action'] == "display") {
 	    insert_smilies_frame($site_config, $smilies);
-	} else {
-	    echo '<div class="empty">No smilies to display.</div>';
-	}
+	} 
 	?>
 </div>
 </body>

@@ -1399,22 +1399,31 @@ function commenttable($res, $type = null) {
 
         $edit = null;
         if ($type == "torrent" && $CURUSER["edit_torrents"] == "yes" || $type == "news" && $CURUSER["edit_news"] == "yes" || $CURUSER['id'] == $row['user'])
-            $edit = '[<a href="comments.php?id='.$row["id"].'&amp;type='.$type.'&amp;edit=1">Edit</a>]&nbsp;';
+            $edit = '<a href="comments.php?id='.$row["id"].'&amp;type='.$type.'&amp;edit=1" class="fp-btn fp-btn-edit" title="Edit"><i class="fas fa-pen"></i>Edit</a>';
 
         $delete = null;
         if ($type == "torrent" && $CURUSER["delete_torrents"] == "yes" || $type == "news" && $CURUSER["delete_news"] == "yes")
-            $delete = '[<a href="comments.php?id='.$row["id"].'&amp;type='.$type.'&amp;delete=1">Delete</a>]&nbsp;';
+            $delete = '<a href="comments.php?id='.$row["id"].'&amp;type='.$type.'&amp;delete=1" class="fp-btn fp-btn-delete" title="Delete"><i class="fas fa-trash"></i>Delete</a>';
+
+        $report = '<a href="report.php?comment='.$row["id"].'" class="fp-btn fp-btn-report" title="Report"><i class="fas fa-flag"></i>Report</a>';
+
+        $dateBadge = '<span class="fp-date">'.date("d-m-Y \\a\\t H:i:s", utc_to_tz_time($row["added"])).'</span>';
 
         print('<div class="f-post f-border"><table cellspacing="0" width="100%">');
         print('<tr class="p-title">');
         print('<th align="center" width="150"></th>');
-        print('<th align="right">' . $edit . $delete . '[<a href="report.php?comment='.$row["id"].'">Report</a>] Posted: '.date("d-m-Y \\a\\t H:i:s", utc_to_tz_time($row["added"])).'<a id="comment'.$row["id"].'"></a></th>');
+        print('<th align="right">' . $edit . ' ' . $delete . ' ' . $report . ' ' . $dateBadge . '<a id="comment'.$row["id"].'"></a></th>');
         print('</tr>');
         print('<tr valign="top">');
+
+        $profileBtn = '<a href="account-details.php?id='.$row["user"].'" class="fp-btn fp-btn-icon" title="Profile"><i class="fas fa-user"></i></a>';
+        $pmBtn = '<a href="mailbox.php?compose&amp;id='.$row["user"].'" class="fp-btn fp-btn-icon" title="Send PM"><i class="fas fa-envelope"></i></a>';
+
         if ($CURUSER['edit_users'] == 'no' && $privacylevel == 'strong')
-            print('<td class="f-border comment-details" align="left" width="150"><center><b>'.$postername.'</b><br /><i>'.$title.'</i><br /><img width="80" height="80" src="'.$avatar.'" alt="" /><br /><br />Uploaded: ---<br />Downloaded: ---<br />Ratio: ---<br /><br /><a href="account-details.php?id='.$row["user"].'"><img src="themes/'.$THEME.'/forums/icon_profile.png" border="" alt="" /></a> <a href="mailbox.php?compose&amp;id='.$row["user"].'"><img src="themes/'.$THEME.'/forums/icon_pm.png" border="0" alt="" /></a></center></td>');
+            print('<td class="f-border comment-details" align="left" width="150"><center><b>'.$postername.'</b><br /><i>'.$title.'</i><br /><img width="80" height="80" src="'.$avatar.'" alt="" /><br /><br />Uploaded: ---<br />Downloaded: ---<br />Ratio: ---<br /><br />'.$profileBtn.' '.$pmBtn.'</center></td>');
         else
-            print('<td class="f-border comment-details" align="left" width="150"><center><b>'.$postername.'</b><br /><i>'.$title.'</i><br /><img width="80" height="80" src="'.$avatar.'" alt="" /><br /><br />Uploaded: '.$useruploaded.'<br />Downloaded: '.$userdownloaded.'<br />Ratio: '.$userratio.'<br /><br /><a href="account-details.php?id='.$row["user"].'"><img src="themes/'.$THEME.'/forums/icon_profile.png" border="0" alt="" /></a> <a href="mailbox.php?compose&amp;id='.$row["user"].'"><img src="themes/'.$THEME.'/forums/icon_pm.png" border="0" alt="" /></a></center></td>');
+            print('<td class="f-border comment-details" align="left" width="150"><center><b>'.$postername.'</b><br /><i>'.$title.'</i><br /><img width="80" height="80" src="'.$avatar.'" alt="" /><br /><br />Uploaded: '.$useruploaded.'<br />Downloaded: '.$userdownloaded.'<br />Ratio: '.$userratio.'<br /><br />'.$profileBtn.' '.$pmBtn.'</center></td>');
+
         print('<td class="f-border comment">'.$commenttext.'<hr />'.$usersignature.'</td>');
         print('</tr>');
         print('</table></div>');

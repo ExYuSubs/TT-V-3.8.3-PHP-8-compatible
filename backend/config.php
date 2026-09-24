@@ -33,6 +33,9 @@ $site_config['ttversion'] = '3.8.3'; //DONT CHANGE THIS!
 $site_config['CLOUDSITEKEY'] = 'YOUR_OWN_CLOUDSITE_KEY'; // Cloudflare turnstile captcha Sitekey
 $site_config['CLOUDSECRET'] = 'YOUR_OWN_CLOUDSECRET_KEY'; // Cloudflare turnstile captcha Secretkey
 
+// YOUTUBE API KEY CONFIG
+$site_config["YOUTUBE_API_KEY"] = "YOUR_OWN_YOUTUBE_API_KEY";
+
 // NEW MEMEBER UPLOAD RATIO AND INVITES
 $site_config['new_member_upload_ratio'] = 5 * GB; // change the 2 for whatever you want in GB upload
 $site_config['new_member_invites'] = 0 ; // Every new user will get 0 invites to start with as a default. Change as you need
@@ -183,7 +186,3 @@ $site_config['cache_dir'] = getcwd().'/cache'; // Cache dir (only used if type i
 // Password hashing - Once set, cannot be changed without all users needing to reset their passwords
    $site_config["passhash_method"] = "argon2id";
 //$site_config["passhash_method"] = "argon2"; // argon2. Modern hashing
-
-// Remove this line after you edited your config.php
-die("You didn't edit your config correctly.");
-// You MUST remove this line

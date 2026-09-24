@@ -13,7 +13,7 @@ class TTIMDB
 {
     private ?DOMXPath $xpath = null;
 
-    private $_nodes = ['https://www.omdbapi.com/?apikey=your_own_omdbapi_key&i=%s'];
+    private $_nodes = ['https://www.omdbapi.com/?apikey=YOUR_OWN_API_KEY&i=%s'];
 
     private function initXPath(string $urlOrId): bool {
     $imdbId = preg_match('#(tt\d+)#', $urlOrId, $m) ? $m[1] : $urlOrId;
@@ -130,9 +130,6 @@ function tt_genre($imdb)
     return "N/A";
 }
 
-
-
-
     //===| Helpers for torrent-details.php compatibility
     public function getImage($poster, $id) {
         return (!empty($poster) && $poster !== "N/A")
@@ -181,7 +178,7 @@ public function renderStars10($rating) {
             : "n/A";
     }
 
-// ===| Cast Images от IMDb
+// ===| Cast Images to IMDb
 public function getCastImages(string $urlOrId, int $iLimit = 6): array {
 
     $imdbId = preg_match('#(tt\d+)#', $urlOrId, $m) ? $m[1] : $urlOrId;
@@ -210,8 +207,8 @@ public function getTrailerUrl(string $urlOrId): ?string {
 
     $imdbId = preg_match('#(tt\d+)#', $urlOrId, $m) ? $m[1] : $urlOrId;
 
-    $tmdbApiKey    = "your_own_tmdbapi_key";
-    $youtubeApiKey = "your_own_youtube_key";
+    $tmdbApiKey    = "YOUR_OWN_TMDB_API_KEY";
+    $youtubeApiKey = "YOUR_OWN_YOUTUBE_API_KEY";
 
     // TMDb find
     $findUrl = "https://api.themoviedb.org/3/find/$imdbId?api_key={$tmdbApiKey}&external_source=imdb_id";

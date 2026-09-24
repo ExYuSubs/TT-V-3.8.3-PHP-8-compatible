@@ -42,33 +42,6 @@ function klappe_torrent(id)
 	}
 }
 
-  function getCookie(name)
-  {
-      var i, x, y, cookies = document.cookie.split(';');
-      
-      for (i = 0; i < cookies.length; i++)
-      {
-          x = cookies[i].substr(0, cookies[i].indexOf('='));
-          y = cookies[i].substr(cookies[i].indexOf('='));
-          x = x.replace(/^\s+|\s+$/g, '');
-          
-          if (x == name)
-          {
-              return unescape(y.substr(1,5));
-          }
-      }
-      
-      return null;
-  }
-
-  function setCookie(name, value, expire)
-  {
-     var expiry = new Date();
-     expiry.setDate(expiry.getDate() + expire);
-     var values = escape(value) + ((expiry == null) ? '' : '; expires=' + expiry.toUTCString());
-     document.cookie = name + '=' + values;
-  }
-  
   var checked = false;
   function checkAll(form)
   {
@@ -146,46 +119,43 @@ function klappe_torrent(id)
 
   function PopMoreSmiles(form,name) 
   {
-      link = 'backend/smilies.php?action=display&form='+form+'&text='+name
-      newWin = window.open(link,'moresmile','height=500,width=450,resizable=no,scrollbars=yes,location=no');
-      if (window.focus) {newWin.focus()}
+      var link = 'backend/smilies.php?action=display&form='+form+'&text='+name;
+      var newWin = window.open(link,'moresmile','height=500,width=500,resizable=no,scrollbars=yes,location=no');
+      if (newWin && window.focus) { newWin.focus(); }
+      else { alert('Popup je blokiran od strane browsera. Dozvolite popup-ove za ovaj sajt.'); }
+      return false;
+  }
+ 
+  function PopSmiles(form,name)
+  {
+      var link = 'moresmiles.php?form='+form+'&text='+name;
+      var newWin = window.open(link,'moresmile','height=500,width=500,resizable=no,scrollbars=yes,location=no');
+      if (newWin && window.focus) { newWin.focus(); }
+      else { alert('Popup je blokiran od strane browsera. Dozvolite popup-ove za ovaj sajt.'); }
+      return false;
   }
   
   function PopMoreTags() 
   {
-      link = 'tags.php';
-      newWin = window.open(link,'moresmile','height=500,width=775,resizable=no,scrollbars=yes,location=no');
-      if (window.focus) {newWin.focus()}
-  }          
+      var link = 'tags.php';
+      var newWin = window.open(link,'tags','height=900,width=800,resizable=yes,scrollbars=yes,location=no');
+      if (newWin && window.focus) { newWin.focus(); }
+      return false;
+  }
   
-  jQuery(document).ready(function()
+  function PopNFORipper() 
   {
-      var items = jQuery('.showHide');
-      
-      for ( i = 0; i <= items.length; i++ )
-      {
-          if ( getCookie('slidingDiv'+items[i].id) == 'hide' )
-          {
-              jQuery('.showHide[id='+items[i].id+']').html('+');
-              jQuery('.slidingDiv'+items[i].id).hide();
-          }
-          else
-          {
-              jQuery('.showHide[id='+items[i].id+']').html('-');
-              jQuery('.slidingDiv'+items[i].id).show(); 
-          }
-          
-          jQuery('.showHide[id='+items[i].id+']').click(function()
-          {
-              var id = jQuery(this).attr('id');
-              var type = jQuery('.slidingDiv' + id).is(':hidden');
-              
-              setCookie('slidingDiv' + id, (type == false ? 'hide' : 'show'), 86400);
-              
-              jQuery('.showHide[id='+id+']').html((type == false ? '+' : '-'));
-              jQuery('.slidingDiv' + id).slideToggle(); 
-          });
-      } 
-  });
-
+      var link = 'nforipper.php';
+      var newWin = window.open(link,'nforipper','height=900,width=800,resizable=yes,scrollbars=yes,location=no');
+      if (newWin && window.focus) { newWin.focus(); }
+      return false;
+  }
+  
+  function PopNFOview() 
+  {
+      var link = 'nfoview.php';
+      var newWin = window.open(link,'nfoview','height=900,width=800,resizable=yes,scrollbars=yes,location=no');
+      if (newWin && window.focus) { newWin.focus(); }
+      return false;
+  }
 // -->
