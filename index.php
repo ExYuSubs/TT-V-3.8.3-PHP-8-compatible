@@ -20,23 +20,23 @@ stdhead(T_("HOME"));
 }
 
 //===| Start of Notice block |===//
-require_once("blocks/notice_block.php");
+require_once("blocks/index-blocks/notice_block.php");
 //====| End of Notice block |====//
 
 //===| Start of News block |===//
-require_once("blocks/news_block.php");
+require_once("blocks/index-blocks/news_block.php");
 //====| End of News block |====//
 
 //===| Start of Shotbox block |===//
-require_once("blocks/shoutbox_block.php");
+require_once("blocks/index-blocks/shoutbox_block.php");
 //====| End of Shoutbox block |====//
 
 //===| Start of Latest torrents block |===//
-require_once("blocks/last_torrents_block.php");
+require_once("blocks/index-blocks/last_torrents_block.php");
 //====| End of Latest torrents block |====//
 
 //===| Start of Disclamer block |===//
-require_once("blocks/disclamer_block.php");
+require_once("blocks/index-blocks/disclamer_block.php");
 //====| End of Disclamer block |====//
 
 

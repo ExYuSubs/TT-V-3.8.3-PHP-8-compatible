@@ -1,6 +1,6 @@
 <?php
 #================================#
-#       TorrentTrader 3.00       #
+#       TorrentTrader 3.8.3      #
 #  http://www.torrenttrader.uk   #
 #--------------------------------#
 #       Created by M-Jay         #
@@ -84,7 +84,7 @@ print("<div class='breadcrumb flat'>
 					$to = (@($_POST['draft'] ?? null) ? 'draft' : (@($_POST['template'] ?? null) ? 'template' : (@($_POST['save'] ?? null) ? 'both' : 'in')));
 					$status = (@($_POST['send'] ?? null) ? 'yes' : 'no');
 					
-					//=== Antiflood ===//=== BigMax ===//
+					//=== Antiflood ===//
 						if (strlen($msg) > $site_config['floodsize'] && $CURUSER["control_panel"] != "yes")
 							show_error_msg(T_("ERROR"), "".T_("MESSAGE_IS_TOO_LONG").".", 1);
 						$res = SQL_Query_exec("SELECT COUNT(*) FROM `messages` WHERE sender = $CURUSER[id] AND added > '" . get_date_time(gmtime() - ($site_config['floodtime'] * 60)) . "'");
@@ -95,7 +95,7 @@ print("<div class='breadcrumb flat'>
 					
 					//===| Start Blocked Users |===//
 					$blocked = SQL_Query_exec("SELECT id FROM blocked WHERE userid=$sendto AND blockid=$CURUSER[id]");
-					$show = mysqli_num_rows($blocked);
+					$show = $blocked ? mysqli_num_rows($blocked) : 0;
 					if ($show != 0 && $CURUSER["control_panel"] != "yes")
 						show_error_msg(T_("ERROR"), "<div style='margin-top:10px; margin-bottom:10px' align='center'><font size=2 color=#FF2000><b>".T_("CANNOT_SEND_TO_THIS_MEMBER")."</b></font></div>", 1);
 					//===| End Blocked Users |===//
@@ -113,11 +113,9 @@ print("<div class='breadcrumb flat'>
 					//===| End PMs Banned |===//
 					
 					SQL_Query_exec("INSERT INTO `messages` (`sender`, `receiver`, `added`, `subject`, `msg`, `unread`, `location`) VALUES ('$CURUSER[id]', '$sendto', '" . get_date_time() . "', $subject, $msg, '$status', '$to')") or die("Aargh!");
-					//===| Spionul Mesajelor - BigMax |===//
-					SQL_Query_exec("INSERT INTO `mesaje` (`sender`, `receiver`, `added`, `subject`, `msg`, `unread`, `location`) VALUES ('$CURUSER[id]', '$sendto', '" . get_date_time() . "', $subject, $msg, '$status', '$to')") or die("Aargh!");
 					
 					//email notif
-					$res = SQL_Query_exec("SELECT id, acceptpms, notifs, email FROM users WHERE id='$sendto'");
+					$res = SQL_Query_exec("SELECT id, username, acceptpms, notifs, email FROM users WHERE id='$sendto'");
 					$user = mysqli_fetch_assoc($res);
 					
 					if (strpos($user['notifs'], '[pm]') !== false) {
@@ -132,9 +130,11 @@ print("<div class='breadcrumb flat'>
 					if (isset($_POST['msgid']))
 						SQL_Query_exec("DELETE FROM messages WHERE `location` = 'draft' AND `sender` = $CURUSER[id] AND `id` = $_POST[msgid]") or die("arghh"); 
 				}
-				if (isset($_POST['send']))
+				if (isset($_POST['send'])) {
+					$sendtoname = isset($user['username']) ? htmlspecialchars($user['username']) : '';
 					$info = "".T_("MESSAGE_SENT_OK")."" . (@($_POST['save'] ?? null) ? ", ".T_("A_COPY_HAS_SAVED")."" : "");
-				else
+					$show_send_redirect = true;
+				} else
 					$info = "".T_("MESSAGE_SAVED_OK")."";
 			} else
 				$error = "".T_("UNABLE_SEND_MESSAGE")."";
@@ -143,6 +143,7 @@ print("<div class='breadcrumb flat'>
 
 	//****** Delete a message ******
 	if (isset($_POST['remove']) && (isset($_POST['msgs']) || is_array(($_POST['remove'] ?? null)))) {
+		$tmp = array();
 		if (is_array(($_POST['remove'] ?? null)))
 			$tmp[] = key(($_POST['remove'] ?? null));
 		else
@@ -166,6 +167,7 @@ print("<div class='breadcrumb flat'>
 
 	//****** Mark a message as read - only if you're the recipient ******
 	if (isset($_POST['mark']) && (isset($_POST['msgs']) || is_array(($_POST['mark'] ?? null)))) {
+		$tmp = array();
 		if (is_array(($_POST['mark'] ?? null)))
 			$tmp[] = key(($_POST['mark'] ?? null));
 		else
@@ -181,6 +183,13 @@ print("<div class='breadcrumb flat'>
 	}
 
 stdhead($pagename, false);
+
+	if (!empty($show_send_redirect)) {
+		print("<div id='pm-redirect-msg' style='text-align:center; margin:15px 0; padding:10px; font-weight:bold; font-size:14px;'>Your message to \"$sendtoname\" has been sent, please wait to be redirected to messages</div>
+		<script type='text/javascript'>
+		setTimeout(function(){ window.location.href = 'mailbox.php'; }, 4000);
+		</script>");
+	}
 
 	if (isset($_REQUEST['compose'])) 
 {
@@ -352,19 +361,22 @@ echo"<br /><br />";
 		if ($count >= 20) { print($pagertop); }
 
 		begin_form();
-		begin_table(0, "list");
-		$table['&nbsp;'] = th_left("<div style='margin-top:5px; margin-bottom:15px'>&nbsp;<input type='checkbox' onclick='toggleChecked(this.checked);this.form.remove.disabled=true;' /></div>", 1);
-		$table['Sender'] = th_center("".T_("SENDER")."", 'sender');
-		$table['Sent_to'] = th_center("".T_("SENT_TO")."", 'sendto');
-		$table['Subject'] = th_center("".T_("SUBJECT")."", 'subject');
-		$table['Date'] = th_center("".T_("DATE_ADDED")."", 'added');
-		table($table, $tablefmt);
-		
+
+		$show_person = !isset($_GET['templates']);
+		$colcount = $show_person ? 4 : 3;
+
+		echo "<table border='0' align='center' class='table table-bordered2' width='100%' cellpadding='5' cellspacing='5'>";
+		echo "<tr>";
+		echo "<td class='css' width='40'><input type='checkbox' onclick='toggleChecked(this.checked);this.form.remove.disabled=true;' /></td>";
+		if ($show_person)
+			echo "<td class='css'>" . (isset($_GET['inbox']) ? T_("SENDER") : T_("SENT_TO")) . "</td>";
+		echo "<td class='css'>".T_("SUBJECT")."</td>";
+		echo "<td class='css-right'>".T_("DATE_ADDED")."</td>";
+		echo "</tr>";
+
 		$res = SQL_Query_exec("SELECT * FROM messages WHERE $where $order $limit");
 		while ($arr = mysqli_fetch_assoc($res)) {
-			unset($table);
 			$userid = 0;
-			$format = '';
 			$reading = false;
 			
 			if ($arr["sender"] == $CURUSER['id'])
@@ -386,26 +398,28 @@ echo"<br /><br />";
 				$sentto = "<font size=2 color=#DF11DF>System</font>";
 			
 			$subject = ($arr['subject'] ? htmlspecialchars($arr['subject']) : "".T_("NO_SUBJECT")."");
+			$person = isset($_GET['inbox']) ? $sender : $sentto;
 			
 			if (@($_GET['read'] ?? null) == $arr['id']) {
 				$reading = true;
 				if (isset($_GET['inbox']) && $arr["unread"] == "yes")
 					SQL_Query_exec("UPDATE messages SET `unread` = 'no' WHERE `id` = $arr[id] AND `receiver` = $CURUSER[id]");
 			}
+			$rowweight = '';
 			if ($arr["unread"] == "yes") {
-				$format = "font-style: normal;";
+				$rowweight = "font-weight:bold;";
 				$unread = true;
 			}
 			
 			$date = ("" . date("j M. Y | H:i", utc_to_tz_time($arr['added'])) . "");
 			
-			$table['&nbsp;'] = th_left("&nbsp;<input type='checkbox' name='msgs[$arr[id]]' " . ($reading ? "checked='checked'" : "") . " onclick='this.form.remove.disabled=true;' />", 1);
-			$table['Sender'] = th_center("$sender", 1, $format);
-			$table['Sent_to'] = th_center("$sentto", 1, $format);
-			$table['Subject'] = th_left("<a href='javascript:read($arr[id]);'><img src='" . $site_config["SITEURL"] . "/images/plus.gif' id='img_$arr[id]' class='read' border='0' alt='' /></a>&nbsp;<a href='javascript:read($arr[id]);'>$subject</a>", 1, $format);
-			$table['Date'] = th_center("" . $date, 1, $format);
-			
-			table($table, $tablefmt);
+			echo "<tr>";
+			echo "<td class='css'>&nbsp;<input type='checkbox' name='msgs[$arr[id]]' " . ($reading ? "checked='checked'" : "") . " onclick='this.form.remove.disabled=true;' /></td>";
+			if ($show_person)
+				echo "<td class='css' style='$rowweight'>$person</td>";
+			echo "<td class='css' style='$rowweight'><a href='javascript:read($arr[id]);'><img src='" . $site_config["SITEURL"] . "/images/plus.gif' id='img_$arr[id]' class='read' border='0' alt='' /></a>&nbsp;<a href='javascript:read($arr[id]);'>$subject</a></td>";
+			echo "<td class='css-right' style='$rowweight'>$date</td>";
+			echo "</tr>";
 			
 			$display = "<div style='margin-top:10px; margin-bottom:10px'>" . format_comment($arr['msg']) . "<br /><br />";
 			if (isset($_GET['inbox']) && is_valid_id($arr["sender"]))
@@ -416,8 +430,10 @@ echo"<br /><br />";
 				$display .= "<input type='submit' class='btn btn-primary' name='mark[$arr[id]]' value='".T_("MARK_AS_READ")."' />&nbsp;\n";
 			$display .= "<input type='submit' class='btn btn-danger' name='remove[$arr[id]]' value='".T_("DELETE")."' />\n";
 			$display .= "</div>";
-			table(td_left($display, 1, "padding:0 7px 0 7px"), $tablefmt, "id='msg_$arr[id]' style='display:none;'");
+			echo "<tr id='msg_$arr[id]' style='display:none;'><td class='css' colspan='$colcount' style='padding:0 7px 0 7px'>$display</td></tr>";
 		}
+		
+		echo "</table>";
 		
 		$buttons = "<br><div style='margin-left:7px; margin-bottom:7px'><input type='button' class='btn btn-danger' value='".T_("DELETE_SELECTED")."' onclick='this.form.remove.disabled=!this.form.remove.disabled;' />";
 		$buttons .= "<input type='submit' class='btn btn-success' name='remove' value='".T_("_CONFIRM")."' disabled='disabled' />";
@@ -425,9 +441,8 @@ echo"<br /><br />";
 			$buttons .= "&nbsp; &nbsp;<input type='button' value='".T_("MARK_SELECTED_AS_READ")."' onclick='this.form.mark.disabled=!this.form.mark.disabled;' /><input type='submit' name='mark' value='".T_("_CONFIRM")."' disabled='disabled' /></div>";
 		if (isset($_GET['templates']))
 			$buttons .= "&nbsp;<input type='submit' name='compose' value='".T_("CREATE_NEW_TEMPLATE")."' />";
-		table(td_left($buttons, 1, "border:0"), $tablefmt);
+		print($buttons);
 		
-		end_table();
 		end_form();
 		
 		if ($count >= 20) { print($pagerbottom); }

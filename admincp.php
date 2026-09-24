@@ -25,6 +25,26 @@ $do = $_REQUEST["do"] ?? '';
 function navmenu(){
 global $site_config;
 
+    // Modern Font Awesome icons (no PNG/GIF files required for the admin UI).
+    echo '<style>
+    @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css");
+    .admin-menu{width:100%;border-collapse:separate;border-spacing:14px;table-layout:fixed}
+    .admin-menu td{text-align:center;vertical-align:top;padding:0}
+    .admin-menu a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:112px;padding:18px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none !important;color:var(--text);transition:background-color .15s ease,border-color .15s ease,transform .15s ease,box-shadow .15s ease}
+    .admin-menu a:hover,.admin-menu a:focus{background:var(--surface-2);border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow)}
+    .admin-menu .admin-icon{font-size:26px;line-height:1;color:var(--accent)}
+    .admin-menu .admin-label{font-size:12.5px;font-weight:600;line-height:1.3;color:var(--text)}
+    .admin-action-icon{display:inline-block;padding:3px 5px;font-size:18px;color:var(--danger);transition:transform .15s ease,opacity .15s ease}
+    a:hover .admin-action-icon{transform:scale(1.15);opacity:.8}
+    .admin-status-icon{margin:0 3px;font-size:15px;vertical-align:middle}
+    @media (max-width:900px){
+        .admin-menu{border-spacing:8px}
+        .admin-menu a{min-height:92px;padding:12px 6px}
+        .admin-menu .admin-icon{font-size:20px}
+        .admin-menu .admin-label{font-size:11px}
+    }
+    </style>';
+
 //Get Last Cleanup
 $res = SQL_Query_exec("SELECT last_time FROM tasks WHERE task = 'cleanup'");
 $row = mysqli_fetch_row($res);
@@ -60,58 +80,56 @@ return ($ver[0] . " " . $ver[1]);
 	echo "<center><b>".T_("USERS_AWAITING_VALIDATION").":</b> <a href='admincp.php?action=confirmreg'>($pending)</a></center><br />";
 	echo "<center>".T_("VERSION_MYSQL").": <b>" . $mysqlver . "</b><br />".T_("VERSION_PHP").": <b>" . phpversion() . "</b><br />".T_("VERSION_APACHE").": <b>" . apache_version() . "</b></center><hr/>";
 ?>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.7.2/css/all.css">
-<style>
-.admin-menu{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:15px;width:100%;margin:20px auto 10px}
-.admin-menu-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:128px;padding:20px 12px 16px;box-sizing:border-box;border:1px solid rgba(127,127,127,.18);border-radius:14px;background:rgba(127,127,127,.055);color:inherit;text-decoration:none!important;overflow:hidden;isolation:isolate;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease}
-.admin-menu-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--tile-color);z-index:-1}
-.admin-menu-card:after{content:"";position:absolute;inset:0;background:var(--tile-color);opacity:0;z-index:-2;transition:opacity .22s ease}
-.admin-menu-card:hover,.admin-menu-card:focus-visible{transform:translateY(-6px);border-color:var(--tile-color);box-shadow:0 12px 28px rgba(0,0,0,.16);outline:none}
-.admin-menu-card:hover:after,.admin-menu-card:focus-visible:after{opacity:.07}
-.admin-menu-icon{display:flex;align-items:center;justify-content:center;width:58px;height:58px;margin-bottom:13px;border-radius:16px;background:color-mix(in srgb,var(--tile-color) 12%,transparent);color:var(--tile-color);font-size:26px;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:transform .22s ease,background .22s ease,color .22s ease,box-shadow .22s ease}
-.admin-menu-card:hover .admin-menu-icon,.admin-menu-card:focus-visible .admin-menu-icon{transform:scale(1.12) rotate(-3deg);background:var(--tile-color);color:#fff;box-shadow:0 7px 18px color-mix(in srgb,var(--tile-color) 35%,transparent)}
-.admin-menu-label{font-size:13px;line-height:1.35;font-weight:600;text-align:center}
-@media(max-width:1050px){.admin-menu{grid-template-columns:repeat(4,minmax(135px,1fr))}}
-@media(max-width:780px){.admin-menu{grid-template-columns:repeat(3,minmax(120px,1fr));gap:11px}}
-@media(max-width:560px){.admin-menu{grid-template-columns:repeat(2,minmax(120px,1fr))}.admin-menu-card{min-height:112px}}
-@media(max-width:360px){.admin-menu{grid-template-columns:1fr}}
-</style>
-<div class="admin-menu">
-<a class="admin-menu-card" style="--tile-color:#4f46e5" href="admincp.php?action=usersearch"><span class="admin-menu-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("ADVANCED_USER_SEARCH"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#8b5cf6" href="admincp.php?action=avatars"><span class="admin-menu-icon"><i class="fa-solid fa-user-astronaut" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("AVATAR_LOG"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#0891b2" href="admincp.php?action=backups"><span class="admin-menu-icon"><i class="fa-solid fa-database" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("BACKUPS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#ef4444" href="admincp.php?action=ipbans"><span class="admin-menu-icon"><i class="fa-solid fa-ban" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("BANNED_IPS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#f97316" href="admincp.php?action=bannedtorrents"><span class="admin-menu-icon"><i class="fa-solid fa-file-circle-xmark" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("BANNED_TORRENTS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#14b8a6" href="admincp.php?action=blocks&amp;do=view"><span class="admin-menu-icon"><i class="fa-solid fa-cubes" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("BLOCKS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#dc2626" href="admincp.php?action=cheats"><span class="admin-menu-icon"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("DETECT_POSS_CHEATS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#06b6d4" href="admincp.php?action=emailbans"><span class="admin-menu-icon"><i class="fa-solid fa-envelope-circle-xmark" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("EMAIL_BANS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#6366f1" href="faq-manage.php"><span class="admin-menu-icon"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("FAQ"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#eab308" href="admincp.php?action=freetorrents"><span class="admin-menu-icon"><i class="fa-solid fa-gift" aria-hidden="true"></i></span><span class="admin-menu-label">Freeleech Torrents</span></a>
-<a class="admin-menu-card" style="--tile-color:#22c55e" href="admincp.php?action=lastcomm"><span class="admin-menu-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("LATEST_COMMENTS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#0ea5e9" href="admincp.php?action=masspm"><span class="admin-menu-icon"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("MASS_PM"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#64748b" href="admincp.php?action=messagespy"><span class="admin-menu-icon"><i class="fa-solid fa-user-secret" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("MESSAGE_SPY"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#f59e0b" href="admincp.php?action=news&amp;do=view"><span class="admin-menu-icon"><i class="fa-solid fa-newspaper" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("NEWS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#10b981" href="admincp.php?action=peers"><span class="admin-menu-icon"><i class="fa-solid fa-network-wired" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("PEERS_LIST"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#a855f7" href="admincp.php?action=polls&amp;do=view"><span class="admin-menu-icon"><i class="fa-solid fa-square-poll-vertical" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("POLLS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#f43f5e" href="admincp.php?action=reports&amp;do=view"><span class="admin-menu-icon"><i class="fa-solid fa-flag" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("REPORTS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#7c3aed" href="admincp.php?action=rules&amp;do=view"><span class="admin-menu-icon"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("RULES"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#475569" href="admincp.php?action=sitelog"><span class="admin-menu-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("SITELOG"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#ec4899" href="teams-create.php"><span class="admin-menu-icon"><i class="fa-solid fa-users-gear" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("TEAMS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#6366f1" href="admincp.php?action=style"><span class="admin-menu-icon"><i class="fa-solid fa-palette" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("THEME_MANAGEMENT"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#0284c7" href="admincp.php?action=categories&amp;do=view"><span class="admin-menu-icon"><i class="fa-solid fa-folder-tree" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("TORRENT_CAT_VIEW"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#16a34a" href="admincp.php?action=torrentlangs&amp;do=view"><span class="admin-menu-icon"><i class="fa-solid fa-language" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("TORRENT_LANG"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#2563eb" href="admincp.php?action=torrentmanage"><span class="admin-menu-icon"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("TORRENTS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#9333ea" href="admincp.php?action=groups&amp;do=view"><span class="admin-menu-icon"><i class="fa-solid fa-user-group" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("USER_GROUPS_VIEW"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#f97316" href="admincp.php?action=warned"><span class="admin-menu-icon"><i class="fa-solid fa-user-large-slash" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("WARNED_USERS"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#06b6d4" href="admincp.php?action=whoswhere"><span class="admin-menu-icon"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("WHOS_WHERE"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#dc2626" href="admincp.php?action=censor"><span class="admin-menu-icon"><i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("WORD_CENSOR"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#0f766e" href="admincp.php?action=forum"><span class="admin-menu-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span><span class="admin-menu-label"><?php echo T_("FORUM_MANAGEMENT"); ?></span></a>
-<a class="admin-menu-card" style="--tile-color:#4f46e5" href="admincp.php?action=users"><span class="admin-menu-icon"><i class="fa-solid fa-user-magnifying-glass" aria-hidden="true"></i></span><span class="admin-menu-label">Simple User Search</span></a>
-<a class="admin-menu-card" style="--tile-color:#0891b2" href="admincp.php?action=privacylevel"><span class="admin-menu-icon"><i class="fa-solid fa-user-lock" aria-hidden="true"></i></span><span class="admin-menu-label">Privacy Level</span></a>
-<a class="admin-menu-card" style="--tile-color:#eab308" href="admincp.php?action=pendinginvite"><span class="admin-menu-icon"><i class="fa-solid fa-user-clock" aria-hidden="true"></i></span><span class="admin-menu-label">Pending Invited Users</span></a>
-<a class="admin-menu-card" style="--tile-color:#22c55e" href="admincp.php?action=invited"><span class="admin-menu-icon"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></span><span class="admin-menu-label">Invited Users</span></a>
-<a class="admin-menu-card" style="--tile-color:#ef4444" href="admincp.php?action=sqlerr"><span class="admin-menu-icon"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span><span class="admin-menu-label">SQL Error</span></a>
-</div>
+<table class="admin-menu" border="0" cellspacing="0" cellpadding="0">
+<tr>
+    <td align="center"><a href="admincp.php?action=usersearch"><span class="admin-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("ADVANCED_USER_SEARCH"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=avatars"><span class="admin-icon"><i class="fa-solid fa-user-pen" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("AVATAR_LOG"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=backups"><span class="admin-icon"><i class="fa-solid fa-database" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("BACKUPS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=ipbans"><span class="admin-icon"><i class="fa-solid fa-ban" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("BANNED_IPS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=bannedtorrents"><span class="admin-icon"><i class="fa-solid fa-file-circle-xmark" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("BANNED_TORRENTS"); ?></span></a></td>
+</tr>
+<tr>
+    <td align="center"><a href="admincp.php?action=blocks&amp;do=view"><span class="admin-icon"><i class="fa-solid fa-cubes" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("BLOCKS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=cheats"><span class="admin-icon"><i class="fa-solid fa-user-secret" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("DETECT_POSS_CHEATS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=emailbans"><span class="admin-icon"><i class="fa-solid fa-envelope-circle-xmark" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("EMAIL_BANS"); ?></span></a></td>
+    <td align="center"><a href="faq-manage.php"><span class="admin-icon"><i class="fa-solid fa-circle-question" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("FAQ"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=freetorrents"><span class="admin-icon"><i class="fa-solid fa-gift" aria-hidden="true"></i></span><span class="admin-label">Freeleech Torrents</span></a></td>
+</tr>
+<tr>
+    <td align="center"><a href="admincp.php?action=lastcomm"><span class="admin-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("LATEST_COMMENTS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=masspm"><span class="admin-icon"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("MASS_PM"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=messagespy"><span class="admin-icon"><i class="fa-solid fa-user-secret" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("MESSAGE_SPY"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=news&amp;do=view"><span class="admin-icon"><i class="fa-solid fa-newspaper" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("NEWS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=peers"><span class="admin-icon"><i class="fa-solid fa-network-wired" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("PEERS_LIST"); ?></span></a></td>
+</tr>
+<tr>
+    <td align="center"><a href="admincp.php?action=polls&amp;do=view"><span class="admin-icon"><i class="fa-solid fa-square-poll-vertical" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("POLLS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=reports&amp;do=view"><span class="admin-icon"><i class="fa-solid fa-flag" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("REPORTS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=rules&amp;do=view"><span class="admin-icon"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("RULES"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=sitelog"><span class="admin-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("SITELOG"); ?></span></a></td>
+    <td align="center"><a href="teams-create.php"><span class="admin-icon"><i class="fa-solid fa-people-group" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("TEAMS"); ?></span></a></td>
+</tr>
+<tr>
+    <td align="center"><a href="admincp.php?action=style"><span class="admin-icon"><i class="fa-solid fa-palette" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("THEME_MANAGEMENT"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=categories&amp;do=view"><span class="admin-icon"><i class="fa-solid fa-folder-tree" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("TORRENT_CAT_VIEW"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=torrentlangs&amp;do=view"><span class="admin-icon"><i class="fa-solid fa-language" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("TORRENT_LANG"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=torrentmanage"><span class="admin-icon"><i class="fa-solid fa-download" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("TORRENTS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=groups&amp;do=view"><span class="admin-icon"><i class="fa-solid fa-user-group" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("USER_GROUPS_VIEW"); ?></span></a></td>
+</tr>
+<tr>
+    <td align="center"><a href="admincp.php?action=warned"><span class="admin-icon"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("WARNED_USERS"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=whoswhere"><span class="admin-icon"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("WHOS_WHERE"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=censor"><span class="admin-icon"><i class="fa-solid fa-filter" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("WORD_CENSOR"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=forum"><span class="admin-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span><span class="admin-label"><?php echo T_("FORUM_MANAGEMENT"); ?></span></a></td>
+    <td align="center"><a href="admincp.php?action=users"><span class="admin-icon"><i class="fa-solid fa-solid fa-magnifying-glass" aria-hidden="true"></i></span><span class="admin-label">Simple User Search</span></a></td>  
+</tr>
+<tr>
+    <td align="center"><a href="admincp.php?action=privacylevel"><span class="admin-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span class="admin-label">Privacy Level</span></a></td>     
+    <td align="center"><a href="admincp.php?action=pendinginvite"><span class="admin-icon"><i class="fa-solid fa-user-clock" aria-hidden="true"></i></span><span class="admin-label">Pending Invited Users</span></a></td>    
+    <td align="center"><a href="admincp.php?action=invited"><span class="admin-icon"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></span><span class="admin-label">Invited Users</span></a></td>    
+    <td align="center"><a href="admincp.php?action=sqlerr"><span class="admin-icon"><i class="fa-solid fa-bug" aria-hidden="true"></i></span><span class="admin-label">SQL Error</span></a></td>
+</tr>
+</table>
 
 <?php
 	end_frame();
@@ -379,7 +397,7 @@ if ($action == "style") {
 		stdfoot();
    } elseif ($do == "del") {
 
-        if (!count($_POST["ids"] ?? [])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1);
+        if (!@count($_POST["ids"])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1);
         $ids = array_map("intval", $_POST["ids"]);
         $ids = implode(', ', $ids);
         SQL_Query_exec("DELETE FROM `stylesheets` WHERE `id` IN ($ids)");
@@ -477,8 +495,8 @@ if ($action=="news" && $do=="view"){
 			
 			print("<table border='0' cellspacing='0' cellpadding='0'><tr><td>");
 			print("$added&nbsp;---&nbsp;by&nbsp;$by");
-			print(" - [<a href='?action=news&amp;do=edit&amp;newsid=$newsid'><b>".T_("EDIT")."</b></a>]");
-			print(" - [<a href='?action=news&amp;do=delete&amp;newsid=$newsid'><b>".T_("DEL")."</b></a>]");
+			print(" - [<a href='admincp.php?action=news&amp;do=edit&amp;newsid=".(int)$newsid."'><b>".T_("EDIT")."</b></a>]");
+			print(" - [<a href='admincp.php?action=news&amp;do=delete&amp;newsid=".(int)$newsid."'><b>".T_("DEL")."</b></a>]");
 			print("</td></tr>\n");
 
 			print("<tr valign='top'><td><b>$title</b><br />$body</td></tr></table><br />\n");
@@ -493,29 +511,40 @@ if ($action=="news" && $do=="view"){
 }
 
 if ($action=="news" && $do=="takeadd"){
-	$body = $_POST["body"];
-	
-	if (!$body)
-		show_error_msg(T_("ERROR"),T_("ERR_NEWS_ITEM_CAN_NOT_BE_EMPTY"),1); 
+    $body = trim($_POST["body"] ?? '');
 
-	$title = $_POST['title'];
+    if ($body === "")
+        show_error_msg(T_("ERROR"),T_("ERR_NEWS_ITEM_CAN_NOT_BE_EMPTY"),1);
 
-	if (!$title)
-		show_error_msg(T_("ERROR"),T_("ERR_NEWS_TITLE_CAN_NOT_BE_EMPTY"),1);
-	
-	$added = $_POST["added"];
+    $title = trim($_POST["title"] ?? '');
 
-	if (!$added)
-		$added = sqlesc(get_date_time());
+    if ($title === "")
+        show_error_msg(T_("ERROR"),T_("ERR_NEWS_TITLE_CAN_NOT_BE_EMPTY"),1);
 
-	SQL_Query_exec("INSERT INTO news (userid, added, body, title) VALUES (".
+    // Always use the server timestamp instead of trusting POST data.
+    $added = sqlesc(get_date_time());
 
-	$CURUSER['id'] . ", $added, " . sqlesc($body) . ", " . sqlesc($title) . ")");
+    $query = "INSERT INTO news (userid, added, body, title) VALUES (" .
+        (int)$CURUSER['id'] . ", " .
+        $added . ", " .
+        sqlesc($body) . ", " .
+        sqlesc($title) . ")";
 
-	if (mysqli_affected_rows($GLOBALS["DBconnector"]) == 1)
-		show_error_msg(T_("COMPLETED"),T_("CP_NEWS_ITEM_ADDED_SUCCESS"),1);
-	else
-		show_error_msg(T_("ERROR"),T_("CP_NEWS_UNABLE_TO_ADD"),1);
+    if (!SQL_Query_exec($query)) {
+        $db_error = mysqli_error($GLOBALS["DBconnector"]);
+        $db_errno = mysqli_errno($GLOBALS["DBconnector"]);
+        show_error_msg(
+            T_("ERROR"),
+            T_("CP_NEWS_UNABLE_TO_ADD") .
+            "<br /><small>Database error #".$db_errno.": ".htmlspecialchars($db_error)."</small>",
+            1
+        );
+    }
+
+    if (mysqli_affected_rows($GLOBALS["DBconnector"]) == 1)
+        show_error_msg(T_("COMPLETED"),T_("CP_NEWS_ITEM_ADDED_SUCCESS"),1);
+    else
+        show_error_msg(T_("ERROR"),T_("CP_NEWS_UNABLE_TO_ADD"),1);
 }
 
 if ($action=="news" && $do=="add"){
@@ -569,18 +598,20 @@ if ($action=="news" && $do=="edit"){
 
 		$editedat = sqlesc(get_date_time());
 
-		SQL_Query_exec("UPDATE news SET body=$body, title='$title' WHERE id=$newsid");
+		$update_result = SQL_Query_exec("UPDATE news SET body=$body, title=" . sqlesc($title) . " WHERE id=$newsid");
+		if (!$update_result)
+			show_error_msg(T_("ERROR"), "Unable to update news. Database error: " . mysqli_error($GLOBALS["DBconnector"]), 1);
 
-		$returnto = $_POST['returnto'];
+		$returnto = $_POST['returnto'] ?? '';
 
 		if ($returnto != "")
 			header("Location: $returnto");
 		else
 			autolink("admincp.php?action=news&do=view", T_("CP_NEWS_ITEM_WAS_EDITED_SUCCESS")); 
 	} else {
-		$returnto = htmlspecialchars($_GET['returnto']);
+		$returnto = isset($_GET['returnto']) ? htmlspecialchars($_GET['returnto'], ENT_QUOTES, 'UTF-8') : '';
 		begin_frame(T_("CP_NEWS_EDIT"));
-		print("<form method='post' action='?action=news&amp;do=edit&amp;newsid=$newsid' name='news'>\n");
+		print("<form method='post' action='admincp.php?action=news&amp;do=edit&amp;newsid=".(int)$newsid."' name='news'>\n");
 		print("<center>");
 		print("<input type='hidden' name='returnto' value='$returnto' />\n");
 		print("<b>".T_("CP_NEWS_TITLE").": </b><input type='text' name='title' value=\"".$arr['title']."\" /><br /><br />\n");
@@ -1024,7 +1055,7 @@ if ($action=="messagespy"){
 		if ($_POST["delall"])
 			SQL_Query_exec("DELETE FROM `messages`");
 		else {
-			if (!count($_POST["del"] ?? [])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1);
+			if (!@count($_POST["del"])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1);
 			$ids = array_map("intval", $_POST["del"]);
 			$ids = implode(", ", $ids);
 			SQL_Query_exec("DELETE FROM `messages` WHERE `id` IN ($ids)");
@@ -1093,7 +1124,7 @@ if ($action=="messagespy"){
  if ($action == "torrentmanage") {
         
         if ($_POST["do"] == "delete") {
-            if (!count($_POST["torrentids"] ?? []))
+            if (!@count($_POST["torrentids"]))
                   show_error_msg(T_("ERROR"), "Nothing selected click <a href='admincp.php?action=torrentmanage'>here</a> to go back.", 1);
             foreach ($_POST["torrentids"] as $id) {
                 deletetorrent(intval($id));
@@ -1175,7 +1206,7 @@ if ($action == "sitelog") {
 		if ($_POST["delall"])
 			SQL_Query_exec("DELETE FROM `log`");
 		else {
-			if (!count($_POST["del"] ?? [])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1);
+			if (!@count($_POST["del"])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1);
 			$ids = array_map("intval", $_POST["del"]);
 			$ids = implode(", ", $ids);
 			SQL_Query_exec("DELETE FROM `log` WHERE `id` IN ($ids)");
@@ -1401,7 +1432,7 @@ if ($action=="emailbans"){
 	$res2 = SQL_Query_exec("SELECT count(id) FROM email_bans");
 	$row = mysqli_fetch_array($res2);
 	$count = $row[0];
-	$perpage = 40;list($pagertop, $pagerbottom, $limit) = pager($perpage, $count, basename(__FILE__)."?action=emailbans&amp;");
+	$perpage = 50;
 	print("<br /><b>".T_("EMAIL_BANS")." ($count)</b>\n");
 
 	if ($count == 0){
@@ -1713,7 +1744,7 @@ if ($action=="backups"){
             echo ("<td>".$Sizebk[$x]." KByte</td>"); // Size
             echo ("<td>".$data[3]."</td>"); // Hash
             echo ("<td><a href='".$site_config['SITEURL']."/backups/".$Namebk[$x].".sql'>SQL</a> - <a href='".$site_config['SITEURL']."/backups/".$Namebk[$x].".sql.gz'>GZ</a></td>"); // Download
-            echo ("<td><a href='".$site_config['SITEURL']."/admincp.php?action=backups&amp;do=delete&amp;filename=".$Namebk[$x].".sql'><img src='images/delete.png'></a></td>"); // Delete
+            echo ("<td><a href='".$site_config['SITEURL']."/admincp.php?action=backups&amp;do=delete&amp;filename=".$Namebk[$x].".sql'><i class=\"fa-solid fa-trash admin-action-icon\" aria-hidden=\"true\" title=\"Delete\"></i></a></td>"); // Delete
             echo ("</tr>"); // End table row
   }
   // CLOSE TABLE
@@ -1958,7 +1989,7 @@ if ($action=="avatars"){
 			echo("<tr><td class='table_col1'><b><a href=\"account-details.php?id=" . $arr['id'] . "\">" . $arr['username'] . "</a></b></td><td class='table_col2'>");
 
 			if (!$arr['avatar'])
-				echo "<img width=\"80\" src='images/default_avatar.png' alt='' /></td></tr>";
+				echo "<i class=\"fa-solid fa-user-circle\" style=\"font-size:64px;\" aria-hidden=\"true\"></i></td></tr>";
 			else
 				echo "<img width=\"80\" src=\"".htmlspecialchars($arr["avatar"])."\" alt='' /></td></tr>";
 	}
@@ -2661,7 +2692,7 @@ if ($action == "reports" && $do == "view") {
 
       if ($_POST["mark"])
       {
-          if (!count($_POST["reports"] ?? [])) show_error_msg(T_("ERROR"), "Nothing selected to mark.", 1);
+          if (!@count($_POST["reports"])) show_error_msg(T_("ERROR"), "Nothing selected to mark.", 1);
           $ids = array_map("intval", $_POST["reports"]);
           $ids = implode(",", $ids);
           SQL_Query_exec("UPDATE reports SET complete = '1', dealtwith = '1', dealtby = '$CURUSER[id]' WHERE id IN ($ids)");
@@ -2671,7 +2702,7 @@ if ($action == "reports" && $do == "view") {
       
       if ($_POST["del"])
       {
-          if (!count($_POST["reports"] ?? [])) show_error_msg(T_("ERROR"), "Nothing selected to delete.", 1);
+          if (!@count($_POST["reports"])) show_error_msg(T_("ERROR"), "Nothing selected to delete.", 1);
           $ids = array_map("intval", $_POST["reports"]);
           $ids = implode(",", $ids);
           SQL_Query_exec("DELETE FROM reports WHERE id IN ($ids)");
@@ -2859,7 +2890,7 @@ if ($action == "warned")
         }
         else
         {
-            if (!count($_POST['warned'] ?? [])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1);
+            if (!@count($_POST['warned'])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1);
             $ids = array_map("intval", $_POST["warned"]);
             $ids = implode(", ", $ids);
                 
@@ -2941,7 +2972,7 @@ if ($action == "confirmreg")
             SQL_Query_exec("UPDATE `users` SET `status` = 'confirmed' WHERE `status` = 'pending' AND `invited_by` = '0'");
         else
         {
-            if (!count($_POST["users"] ?? [])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1); 
+            if (!@count($_POST["users"])) show_error_msg(T_("ERROR"), T_("NOTHING_SELECTED"), 1); 
             $ids = array_map("intval", $_POST["users"]);
             $ids = implode(", ", $ids);
             SQL_Query_exec("UPDATE `users` SET `status` = 'confirmed' WHERE `status` = 'pending' AND `invited_by` = '0' AND `id` IN ($ids)");  
@@ -3010,7 +3041,7 @@ if ($action == "pendinginvite")
 {
     if ($do == "del") 
     {
-        if (!count($_POST["users"] ?? [])) show_error_msg(T_("ERROR"), "Nothing Selected.", 1);
+        if (!@count($_POST["users"])) show_error_msg(T_("ERROR"), "Nothing Selected.", 1);
 
         $ids = array_map("intval", $_POST["users"]);
         $ids = implode(", ", $ids);
@@ -3087,7 +3118,7 @@ if ($action == "invited")
 {
     if ($do == "del") 
     {
-        if (!count($_POST["users"] ?? [])) show_error_msg(T_("ERROR"), "Nothing Selected.", 1);
+        if (!@count($_POST["users"])) show_error_msg(T_("ERROR"), "Nothing Selected.", 1);
 
         $ids = array_map("intval", $_POST["users"]);
         $ids = implode(", ", $ids);
@@ -3171,7 +3202,7 @@ if ($action == "users")
     
     if ($do == "del") 
     {
-        if (!count($_POST["users"] ?? [])) show_error_msg(T_("ERROR"), "Nothing Selected.", 1);
+        if (!@count($_POST["users"])) show_error_msg(T_("ERROR"), "Nothing Selected.", 1);
 
         $ids = array_map("intval", $_POST["users"]);
         $ids = implode(", ", $ids);
@@ -3280,7 +3311,7 @@ if ($action == "users")
   if ($action == 'sqlerr')
   {
       if (isset($_POST['do']) && $_POST['do'] === 'delete') {
-          if (!count($_POST['ids'] ?? [])) show_error_msg(T_("ERROR"), "Nothing Selected.", 1);
+          if (!@count($_POST['ids'])) show_error_msg(T_("ERROR"), "Nothing Selected.", 1);
           $ids = array_map('intval', $_POST['ids']);
           $ids = implode(',', $ids);
           
@@ -3535,7 +3566,7 @@ if ($action == "ipbans") {
     navmenu();
 
     if ($do == "del") {
-        if (!count($_POST["delids"] ?? [])) show_error_msg(T_("ERROR"), T_("NONE_SELECTED"), 1);
+        if (!@count($_POST["delids"])) show_error_msg(T_("ERROR"), T_("NONE_SELECTED"), 1);
         $delids = array_map('intval', $_POST["delids"]);
         $delids = implode(', ', $delids);
         $res = SQL_Query_exec("SELECT * FROM bans WHERE id IN ($delids)");
@@ -3983,14 +4014,14 @@ if ($action == "usersearch") {
 		}
 
 		// IP
-		$ip = trim($_GET['ip'] ?? '');
-		if ($ip !== "") {
+		$ip = explode(' ', trim($_GET['ip'] ?? ''));
+		if ($ip) {
 			$regex = "/^(((1?\d{1,2})|(2[0-4]\d)|(25[0-5]))(\.\b|$)){4}$/";
 			if (!preg_match($regex, $ip)) {
 				show_error_msg(T_("ERROR"), "Bad IP.");
 			}
 
-			$mask = trim($_GET['ma'] ?? '');
+			$mask = trim($_GET['ma']);
 			if ($mask == "" || $mask == "255.255.255.255") {
 				$where_is .= (isset($where_is)?" AND ":"")."u.ip = '$ip'";
 			} else {
@@ -4011,7 +4042,7 @@ if ($action == "usersearch") {
 		}
 
 		// ratio
-		$ratio = trim($_GET['r'] ?? '');
+		$ratio = trim($_GET['r']);
 		if ($ratio) {
 			if ($ratio == '---') {
 				$ratio2 = "";
@@ -4027,10 +4058,10 @@ if ($action == "usersearch") {
 				}
 				$where_is .= isset($where_is)?" AND ":"";
 				$where_is .= " (u.uploaded/u.downloaded)";
-				$ratiotype = $_GET['rt'] ?? '';
+				$ratiotype = $_GET['rt'];
 				$q .= ($q ? "&amp;" : "") . "rt=$ratiotype";
 				if ($ratiotype == "3") {
-					$ratio2 = trim($_GET['r2'] ?? '');
+					$ratio2 = trim($_GET['r2']);
 					if (!$ratio2) {
 						show_error_msg(T_("ERROR"), "Two ratios needed for this type of search.");
 					}
@@ -4051,7 +4082,7 @@ if ($action == "usersearch") {
 		}
 
 		// comment
-		$comments = explode(' ', trim($_GET['co'] ?? ''));
+		$comments = explode(' ',trim($_GET['co']));
 		if ($comments[0] !== "") {
 			foreach($comments as $comment) {
 				if (substr($comment,0,1) == '~') {
@@ -4374,15 +4405,15 @@ if ($action == "usersearch") {
 				"<td class='table_col2' align='center'>" . mksize($user['downloaded']) . "</td>".
 				"<td class='table_col1' align='center'>$n_posts ".P_("POST", $n_posts)."<br />$n_comments ".P_("COMMENT", $n_comments)."</td>".
 				// This line actually needs rewriting, difficult to edit.                                                                                                                                                                                                                                                                                                                                          
-				"<td class='table_col2' align='center'>".($user["enabled"] == "yes" && $user["warned"] == "no" ? "--" : ($user["enabled"] == "no" ? "<img src=\"images/disable.png\" title=\"".T_("DISABLED")."\" alt=\"Disabled\" />" : "") . ($user["warned"] == "yes" ? "<img src=\"images/warned.png\" title=\"".T_("WARNED")."\" alt=\"Warned\" />" : "")) . "</td>"."<td class='table_col1' align='center'><input type='checkbox' name=\"warndisable[]\" value='" . $user['id'] . "' /><input type='hidden' name=\"referer\" value=\"$_SERVER[REQUEST_URI]\" /></td></tr>\n";
+				"<td class='table_col2' align='center'>".($user["enabled"] == "yes" && $user["warned"] == "no" ? "--" : ($user["enabled"] == "no" ? "<i class=\"fa-solid fa-ban admin-status-icon\" title=\"".T_("DISABLED")."\" aria-hidden=\"true\"></i>" : "") . ($user["warned"] == "yes" ? "<i class=\"fa-solid fa-triangle-exclamation admin-status-icon\" title=\"".T_("WARNED")."\" aria-hidden=\"true\"></i>" : "")) . "</td>"."<td class='table_col1' align='center'><input type='checkbox' name=\"warndisable[]\" value='" . $user['id'] . "' /><input type='hidden' name=\"referer\" value=\"$_SERVER[REQUEST_URI]\" /></td></tr>\n";
 			}
 			echo "</table>
             <br />
 			<table border='0' align='center' cellspacing='0' cellpadding='0'>
 			<tr><td colspan='2'></td></tr>
-			<tr><td align='right'><img src=\"images/disable.png\" alt=\"Disabled\" /> <input type='submit' name='disable' value=\"Disable Selected Accounts\" /></td><td style=\"border: none; padding: 2px;\" align='left'><input type='submit' name='enable' value=\"Enable Selected Accounts\" /> <img src=\"images/disable.png\" alt=\"Disabled\" /> <img src=\"images/check.gif\" alt=\"Ok\" /></td></tr>
+			<tr><td align='right'><i class=\"fa-solid fa-ban admin-status-icon\" title=\"Disabled\" aria-hidden=\"true\"></i> <input type='submit' name='disable' value=\"Disable Selected Accounts\" /></td><td style=\"border: none; padding: 2px;\" align='left'><input type='submit' name='enable' value=\"Enable Selected Accounts\" /> <i class=\"fa-solid fa-ban admin-status-icon\" title=\"Disabled\" aria-hidden=\"true\"></i> <i class=\"fa-solid fa-circle-check admin-status-icon\" title=\"Ok\" aria-hidden=\"true\"></i></td></tr>
 			<tr><td colspan='2'><br /><br /></td></tr>
-			<tr><td align='center'><img src=\"images/warned.png\" alt=\"Warned\" /> <input type='submit' name='warn' value=\"Warn Selected\" /></td><td align='left'><input type='submit' name='unwarn' value=\"Remove Warning Selected\" /> <img src=\"images/warned.png\" alt=\"Warned\" /> <img src=\"images/check.gif\" alt=\"Ok\" /></td></tr>
+			<tr><td align='center'><i class=\"fa-solid fa-triangle-exclamation admin-status-icon\" title=\"Warned\" aria-hidden=\"true\"></i> <input type='submit' name='warn' value=\"Warn Selected\" /></td><td align='left'><input type='submit' name='unwarn' value=\"Remove Warning Selected\" /> <i class=\"fa-solid fa-triangle-exclamation admin-status-icon\" title=\"Warned\" aria-hidden=\"true\"></i> <i class=\"fa-solid fa-circle-check admin-status-icon\" title=\"Ok\" aria-hidden=\"true\"></i></td></tr>
 			<tr><td align='center' colspan='2'>Mod Comment (reason):<input type='text' size='30' name='warnpm' /></td></tr>
 			</table></form>\n";
    
@@ -4650,7 +4681,7 @@ if ($_GET["do"] == "edit_forumcat") {
         while ($row = mysqli_fetch_array($query))
             $forumcat[] = $row;
 
-// --- L�gg till detta ---
+// --- L gg till detta ---
 $sid = $_POST['sid'] ?? 0;
 $new_forum_name = $_POST['new_forum_name'] ?? '';
 $new_forum_sort = $_POST['new_forum_sort'] ?? '';
@@ -4734,7 +4765,7 @@ if ($allforums == 0) {
             
             echo "<tr><td class='table_col1' width='60' align='center'><font size='2'><b>ID($row[id])</b></font></td><td class='table_col2' width='120'> $row[name]</td><td class='table_col1'  width='250'>$row[description]</td><td class='table_col2' width='45' align='center'>$row[sort]</td><td class='table_col1' width='45'>$category</td>\n";
             echo "<td class='table_col2' width='18' align='center'><a href='admincp.php?action=forum&amp;do=edit_forum&amp;id=$row[id]'>[".T_("EDIT")."]</a></td>\n";
-            echo "<td class='table_col1' width='18' align='center'><a href='admincp.php?action=forum&amp;do=del_forum&amp;id=$row[id]'><img src='images/delete.gif' alt='".T_("FORUM_DELETE_CATEGORY")."' width='17' height='17' border='0' /></a></td></tr>\n";
+            echo "<td class='table_col1' width='18' align='center'><a href='admincp.php?action=forum&amp;do=del_forum&amp;id=$row[id]'><i class=\"fa-solid fa-trash admin-action-icon\" aria-hidden=\"true\" title=\"Delete\"></i></a></td></tr>\n";
     }
 }
 echo "</table>
@@ -4747,7 +4778,7 @@ if ($allcat == 0) {
     foreach ($forumcat as $row) {
         echo "<tr><td class='table_col1' width='60'><font size='2'><b>ID($row[id])</b></font></td><td class='table_col2' width='120'> $row[name]</td><td class='table_col1' width='18'>$row[sort]</td>\n";
         echo "<td class='table_col2' width='18'><a href='admincp.php?action=forum&amp;do=edit_forumcat&amp;id=$row[id]'>[".T_("EDIT")."]</a></td>\n";
-        echo "<td class='table_col1' width='18'><a href='admincp.php?action=forum&amp;do=del_forumcat&amp;id=$row[id]'><img src='images/delete.gif' alt='".T_("FORUM_DELETE_CATEGORY")."' width='17' height='17' border='0' /></a></td></tr>\n";
+        echo "<td class='table_col1' width='18'><a href='admincp.php?action=forum&amp;do=del_forumcat&amp;id=$row[id]'><i class=\"fa-solid fa-trash admin-action-icon\" aria-hidden=\"true\" title=\"Delete\"></i></a></td></tr>\n";
     }
 }
 echo "</table>\n";
