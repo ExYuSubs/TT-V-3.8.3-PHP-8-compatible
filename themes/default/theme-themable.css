@@ -1,0 +1,333 @@
+/*=====================================================================
+  theme-themable.css
+=====================================================================*/
+
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+	/* ---- Tipografija ---- */
+	--font-main: "Funnel Display", "Inter", sans-serif;
+	--font-ui: "Inter", "Funnel Display", sans-serif;
+
+	/* ---- Layout ---- */
+	--radius-sm: 3px;
+	--radius: 3px;
+	--radius-lg: 3px;
+	--gap: 10px;
+
+	/* ---- LIGHT (default) ---- */
+	--bg: #f5f5f5;
+	--bg-soft: #f0f0f0;
+	--surface: #f5f5f5;
+	--surface-2: #f0f0f0;
+	--header-bg: #f5f5f5;
+
+	--border: rgba(66, 50, 26, 0.14);
+	--border-strong: rgba(66, 50, 26, 0.26);
+
+	--text: #3a2f20;
+	--text-muted: #3a2f20;
+	--text-on-accent: #3a2f20;
+
+	--accent: #c9852f;      /* toplo bakarno/zlatna - primarna boja brenda */
+	--accent-hover: #b3742a;
+	--accent-soft: rgba(201, 133, 47, 0.14);
+	--accent-2: #4f7a68;    /* zagasita zelena - sekundarni akcenat */
+
+	--link: #a3661f;
+	--link-hover: #7d4e17;
+
+	--success: #4f8b5b;
+	--success-bg: #e4f0e2;
+	--info: #3f7ea6;
+	--info-bg: #e2eef5;
+	--warning: #b3821f;
+	--warning-bg: #f8f0dd;
+	--danger: #c1443b;
+	--danger-bg: #f7e1de;
+
+	--shadow-sm: 0 1px 2px rgba(58, 47, 34, .06);
+	--shadow: 0 2px 6px rgba(58, 47, 34, .08), 0 10px 24px rgba(58, 47, 34, .06);
+
+	--icon-sun: #e0a13a;
+	--icon-moon: #8a7a63;
+
+	/* ---- Forum / table elementi ---- */
+	--forum-bg: #1b1e24;
+	--forum-text: #4F8A10;
+	--forum-border: #505050;
+
+	--forum-info-bg-1: #f3f3f3;
+	--forum-info-bg-2: #f0f0f0;
+	--forum-info-border: #ddd;
+
+	--table-bg-1: #f3f3f3;
+	--table-bg-2: #f0f0f0;
+	--table-text: #333;
+	--table-border: #ddd;
+
+	--sticky-bg: #e5e5e5;
+	--sticky-text: #ff0000;
+	--sticky-border: #d5d5d5;
+
+	/* ---- Shoutbox ---- */
+	--shout-date: #d5d5d5;
+	--shout-user: #e5e5e5;
+	--shout-actions: #cccccc;
+	--shout-message: #555555;
+
+	/* ---- Shoutbox ---- */
+--shout-date-bg: #d5d5d5;
+--shout-user-bg: #e5e5e5;
+--shout-actions-bg: #cccccc;
+--shout-message-bg: #eeeeee;
+
+--shout-row-alt-bg: #f2f2f2;
+--shout-row-noalt-bg: #e9e9e9;
+--shout-row-border: #bcbcbc;
+
+	--hr-color-1: rgba(0, 0, 0, 0);
+	--hr-color-2: rgba(0, 0, 0, 0.75);
+
+	--scrollbar-thumb: #f5f5f5;
+	--scrollbar-track: #f0f0f0;
+}
+
+/* ---- DARK - tamno plava / navy ---- */
+:root[data-theme="dark"] {
+	--bg: #0b1526;
+	--bg-soft: #0f1d33;
+	--surface: #121f38;
+	--surface-2: #16274a;
+	--header-bg: #0d1830;
+
+	--border: rgba(255, 255, 255, 0.08);
+	--border-strong: rgba(255, 255, 255, 0.16);
+
+	--text: #e7edf7;
+	--text-muted: #92a2bf;
+	--text-on-accent: #16213c;
+
+	--accent: #f0b86a;
+	--accent-hover: #f6c886;
+	--accent-soft: rgba(240, 184, 106, 0.14);
+	--accent-2: #6fb8a4;
+
+	--link: #7fb2f0;
+	--link-hover: #a8cdf7;
+
+	--success: #7fd08f;
+	--success-bg: rgba(127, 208, 143, 0.12);
+	--info: #7fc1e8;
+	--info-bg: rgba(127, 193, 232, 0.12);
+	--warning: #f0b86a;
+	--warning-bg: rgba(240, 184, 106, 0.12);
+	--danger: #ef7b72;
+	--danger-bg: rgba(239, 123, 114, 0.12);
+
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, .35);
+	--shadow: 0 2px 8px rgba(0, 0, 0, .35), 0 12px 28px rgba(0, 0, 0, .35);
+
+	--icon-sun: #f0b86a;
+	--icon-moon: #c3d0e6;
+
+	/* ---- Forum / table elementi ---- */
+	--forum-bg: #121f38;
+	--forum-text: #7fd08f;
+	--forum-border: #2b3d5c;
+
+	--forum-info-bg-1: #16274a;
+	--forum-info-bg-2: #121f38;
+	--forum-info-border: #2b3d5c;
+
+	--table-bg-1: #16274a;
+	--table-bg-2: #121f38;
+	--table-text: #e7edf7;
+	--table-border: #2b3d5c;
+
+	--sticky-bg: #16274a;
+	--sticky-text: #ef7b72;
+	--sticky-border: #34486b;
+
+	/* ---- Shoutbox ---- */
+	--shout-date: #92a2bf;
+	--shout-user: #d7e0ee;
+	--shout-actions: #aebdd2;
+	--shout-message: #d7dde5;
+
+	/* ---- Shoutbox ---- */ 
+--shout-date-bg: #263752;
+--shout-user-bg: #304462;
+--shout-actions-bg: #3a4d6b;
+--shout-message-bg: #1b2b45;
+
+--shout-row-alt-bg: #172941;
+--shout-row-noalt-bg: #1d3150;
+--shout-row-border: #405776;
+
+	--hr-color-1: rgba(255, 255, 255, 0);
+	--hr-color-2: rgba(255, 255, 255, 0.30);
+
+	--scrollbar-thumb: #223256;
+	--scrollbar-track: #0f1d33;
+}
+
+/* Postuj i OS preferencu ako korisnik jos nije birao rucno
+   (data-theme atribut postavlja toggle.js tek nakon prvog klika/citanja localStorage) */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]):not([data-theme="dark"]) {
+		--bg: #0b1526;
+		--bg-soft: #0f1d33;
+		--surface: #121f38;
+		--surface-2: #16274a;
+		--header-bg: #0d1830;
+		--border: rgba(255, 255, 255, 0.08);
+		--border-strong: rgba(255, 255, 255, 0.16);
+		--text: #e7edf7;
+		--text-muted: #92a2bf;
+		--text-on-accent: #16213c;
+		--accent: #f0b86a;
+		--accent-hover: #f6c886;
+		--accent-soft: rgba(240, 184, 106, 0.14);
+		--accent-2: #6fb8a4;
+		--link: #7fb2f0;
+		--link-hover: #a8cdf7;
+		--success: #7fd08f;
+		--success-bg: rgba(127, 208, 143, 0.12);
+		--info: #7fc1e8;
+		--info-bg: rgba(127, 193, 232, 0.12);
+		--warning: #f0b86a;
+		--warning-bg: rgba(240, 184, 106, 0.12);
+		--danger: #ef7b72;
+		--danger-bg: rgba(239, 123, 114, 0.12);
+		--shadow-sm: 0 1px 2px rgba(0, 0, 0, .35);
+		--shadow: 0 2px 8px rgba(0, 0, 0, .35), 0 12px 28px rgba(0, 0, 0, .35);
+		--icon-sun: #f0b86a;
+		--icon-moon: #c3d0e6;
+		--scrollbar-thumb: #223256;
+		--scrollbar-track: #0f1d33;
+	}
+}
+
+/* ============================================================
+   LEGACY MICRO-THEME VARIABLES
+   Compatibility with old inline theme variables
+   ============================================================ */
+
+/* LIGHT */
+:root[data-theme="light"] {
+	--bg: #f5f5f5;
+	--panel: #f5f5f5;
+	--panel-alt: #f0f0f0;
+	--border: rgba(66, 50, 26, 0.14);
+	--text: #3a2f20;
+	--muted: #3a2f20;
+	--accent: #c9852f;
+}
+
+/* DARK */
+:root[data-theme="dark"] {
+	--bg: #0b1526;
+	--panel: #121f38;
+	--panel-alt: #16274a;
+	--border: rgba(255, 255, 255, 0.08);
+	--text: #e7edf7;
+	--muted: #92a2bf;
+	--accent: #f0b86a;
+}
+
+/* ===== Varijable - light (default) ===== */
+[data-theme="light"],
+:root {
+    --fp-btn-bg: #f7f7f7;
+    --fp-btn-border: #ccc;
+    --fp-btn-text: #333;
+    --fp-btn-hover-text: #fff;
+
+    --fp-edit-color: #6c757d;
+    --fp-delete-color: #dc3545;
+    --fp-report-color: #b38600;
+    --fp-report-hover-text: #333;
+    --fp-icon-color: #007bff;
+
+    --fp-date-bg: #eee;
+    --fp-date-border: #ddd;
+    --fp-date-text: #666;
+}
+
+/* ===== Varijable - dark mode ===== */
+[data-theme="dark"] {
+    --fp-btn-bg: #2a2a2a;
+    --fp-btn-border: #555;
+    --fp-btn-text: #ddd;
+    --fp-btn-hover-text: #fff;
+
+    --fp-edit-color: #adb5bd;
+    --fp-delete-color: #ff6b6b;
+    --fp-report-color: #ffd35c;
+    --fp-report-hover-text: #1a1a1a;
+    --fp-icon-color: #4dabf7;
+
+    --fp-date-bg: #333;
+    --fp-date-border: #444;
+    --fp-date-text: #bbb;
+}
+
+/* ===== Dugmici - koriste varijable ===== */
+.fp-btn {
+    display: inline-block;
+    padding: 3px 9px;
+    margin-right: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid var(--fp-btn-border);
+    background: var(--fp-btn-bg);
+    color: var(--fp-btn-text);
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.fp-btn:hover {
+    color: var(--fp-btn-hover-text);
+    text-decoration: none;
+}
+.fp-btn i { margin-right: 4px; }
+
+.fp-btn-edit {
+    border-color: var(--fp-edit-color);
+    color: var(--fp-edit-color);
+}
+.fp-btn-edit:hover { background: var(--fp-edit-color); }
+
+.fp-btn-delete {
+    border-color: var(--fp-delete-color);
+    color: var(--fp-delete-color);
+}
+.fp-btn-delete:hover { background: var(--fp-delete-color); }
+
+.fp-btn-report {
+    border-color: var(--fp-report-color);
+    color: var(--fp-report-color);
+}
+.fp-btn-report:hover {
+    background: var(--fp-report-color);
+    color: var(--fp-report-hover-text);
+}
+
+.fp-btn-icon {
+    padding: 3px 7px;
+    border-color: var(--fp-icon-color);
+    color: var(--fp-icon-color);
+}
+.fp-btn-icon:hover { background: var(--fp-icon-color); }
+
+/* Datum */
+.fp-date {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--fp-date-text);
+    background: var(--fp-date-bg);
+    border-radius: 10px;
+    border: 1px solid var(--fp-date-border);
+}
