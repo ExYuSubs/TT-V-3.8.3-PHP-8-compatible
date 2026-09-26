@@ -459,11 +459,7 @@ if ($action == "viewtopic") {
             </a>
         </div>");
     } else {
-        print("<div align='right' class='forum-top-actions'>
-            <span class='btn btn-danger forum-main-btn'>
-                <i class='fa fa-lock'></i> ".T_("FORUMS_LOCKED")."
-            </span>
-        </div>");
+        print("<div align='right' class='forum-top-actions'> <span class='btn btn-danger forum-main-btn'> <i class='fa fa-lock'></i> ".T_("FORUMS_LOCKED")." </span> </div>");
     }
     print("</div>");
 
@@ -654,16 +650,16 @@ if ($action == "viewtopic") {
 
         print("<div align='center'>");
         if ($locked)
-            print(T_("FORUMS_LOCKED").": <a href='forums.php?action=unlocktopic&amp;forumid=$forumid&amp;topicid=$topicid&amp;page=$page' title='Unlock'><i class='fa fa-unlock'></i></a>\n");
+            print("<a href='forums.php?action=unlocktopic&amp;forumid=$forumid&amp;topicid=$topicid&amp;page=$page' title='Unlock' class='fp-btn fp-btn-edit'>".T_("FORUMS_LOCKED").": <i class='fa fa-unlock'></i></a>\n");
         else
-            print(T_("FORUMS_LOCKED").": <a href='forums.php?action=locktopic&amp;forumid=$forumid&amp;topicid=$topicid&amp;page=$page' title='Lock'><i class='fa fa-lock'></i></a>\n");
+            print("<a href='forums.php?action=locktopic&amp;forumid=$forumid&amp;topicid=$topicid&amp;page=$page' title='Lock' class='fp-btn fp-btn-edit'>".T_("FORUMS_LOCKED").": <i class='fa fa-lock'></i></a>\n");
 
-        print("Delete Entire Topic: <a href='forums.php?action=deletetopic&amp;topicid=$topicid&amp;sure=0' title='Delete'><i class='fa fa-trash'></i></a>\n");
+        print("<a href='forums.php?action=deletetopic&amp;topicid=$topicid&amp;sure=0' title='Delete' class='fp-btn fp-btn-report'>".T_("FORUM_DELETE").": <i class='fa fa-trash'></i></a>\n");
 
         if ($sticky)
-            print(T_("FORUMS_STICKY").": <a href='forums.php?action=unsetsticky&amp;forumid=$forumid&amp;topicid=$topicid&amp;page=$page' title='UnStick'><i class='fa fa-thumb-tack'></i></a>\n");
+            print("<a href='forums.php?action=unsetsticky&amp;forumid=$forumid&amp;topicid=$topicid&amp;page=$page' title='UnStick' class='fp-btn fp-btn-delete'>".T_("FORUMS_STICKY").": <i class='fa fa-thumb-tack'></i></a>\n");
         else
-            print(T_("FORUMS_STICKY").": <a href='forums.php?action=setsticky&amp;forumid=$forumid&amp;topicid=$topicid&amp;page=$page' title='Stick'><i class='fa fa-thumb-tack'></i></a>\n");
+            print("<a href='forums.php?action=setsticky&amp;forumid=$forumid&amp;topicid=$topicid&amp;page=$page' title='delete' class='fp-btn fp-btn-edit'>".T_("FORUMS_STICKY").": <i class='fa fa-thumb-tack'></i></a>\n");
 
         print("</div><br /></td></tr></table></div>");
     }
@@ -758,27 +754,63 @@ if ($action == "editpost") {
     if ($CURUSER["id"] != $arr["userid"] && $CURUSER["delete_forum"] != "yes" && $CURUSER["edit_forum"] != "yes")
         showerror(T_("ERROR"), T_("FORUMS_DENIED"));
 
+    $topicid = (int)$arr["topicid"];
+
+    // Work out exactly which page of the topic this post is on, so we can send the
+    // user straight back to it. We no longer rely on the browser's Referer header
+    // (returnto) for this: many browsers/extensions strip or omit it, which was
+    // causing the old code to silently fall back to the forum index instead of the
+    // topic - making it look like the edit never happened, even though it had.
+    $postsperpage = 20;
+    $rankres = SQL_Query_exec("SELECT COUNT(*) AS cnt FROM forum_posts WHERE topicid=$topicid AND id<=$postid");
+    $rankarr = mysqli_fetch_assoc($rankres);
+    $postrank = max(1, (int)$rankarr["cnt"]);
+    $postpage = (int)ceil($postrank / $postsperpage);
+    if ($postpage < 1) $postpage = 1;
+
+    $returnto = "$site_config[SITEURL]/forums.php?action=viewtopic&topicid=$topicid&page=$postpage#post$postid";
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $body = $_POST['body'] ?? '';
+        $body = trim($_POST['body'] ?? '');
         if ($body == "")
             showerror(T_("ERROR"), "Body cannot be empty!");
 
-        $body = sqlesc($body);
+        $ebody = sqlesc($body);
         $editedat = sqlesc(get_date_time());
-        SQL_Query_exec("UPDATE forum_posts SET body=$body, editedat=$editedat, editedby=$CURUSER[id] WHERE id=$postid");
+        SQL_Query_exec("UPDATE forum_posts SET body=$ebody, editedat=$editedat, editedby=$CURUSER[id] WHERE id=$postid");
 
-        $returnto = $_POST["returnto"] ?? '';
-        if ($returnto)
-            header("Location: $returnto");
-        else
-            showerror(T_("SUCCESS"), "Post was edited successfully.");
+        stdhead();
+        begin_frame(T_("SUCCESS"));
+        print("
+        <div style='text-align:center;padding:25px 0'>
+            <p><b>Your comment was edited.</b></p>
+            <p>You will be redirected to your post in <span id='ep-countdown'>3</span> seconds...</p>
+            <p><a href='" . htmlspecialchars($returnto) . "'>Click here if you are not redirected automatically.</a></p>
+        </div>
+        <script>
+            (function () {
+                var seconds = 3;
+                var el = document.getElementById('ep-countdown');
+                var target = " . json_encode($returnto) . ";
+                var timer = setInterval(function () {
+                    seconds--;
+                    if (el) el.textContent = seconds;
+                    if (seconds <= 0) {
+                        clearInterval(timer);
+                        window.location.href = target;
+                    }
+                }, 1000);
+            })();
+        </script>
+        ");
+        end_frame();
+        stdfoot();
         die;
     }
 
     stdhead();
     begin_frame(T_("FORUMS_EDIT_POST"));
-    print("<form name='Form' method='post' action='?action=editpost&amp;postid=$postid'>\n");
-    print("<input type='hidden' name='returnto' value='" . htmlspecialchars($_SERVER["HTTP_REFERER"] ?? 'forums.php') . "' />\n");
+    print("<form name='Form' method='post' action='$site_config[SITEURL]/forums.php?action=editpost&amp;postid=$postid'>\n");
     print("<center><table cellspacing='0' cellpadding='5'>\n");
     print("<tr><td colspan='2'>\n");
     textbbcode("Form", "body", htmlspecialchars($arr["body"]));
