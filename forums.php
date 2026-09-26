@@ -66,6 +66,9 @@ print("
 .forum-status-legend .forum-status-btn{margin:0}
 .forum-status-legend-label{margin-right:8px}
 @media(max-width:600px){.forum-post-actions{justify-content:flex-start;margin-top:5px}}
+.comment ul{list-style-type:disc!important;margin:10px 0 10px 24px!important;padding:0!important}
+.comment ol{list-style-type:decimal!important;margin:10px 0 10px 24px!important;padding:0!important}
+.comment ul li,.comment ol li{display:list-item!important;list-style-position:outside!important;margin:0 0 4px 0!important;padding:0!important}
 </style>
 ");
 
