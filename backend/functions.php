@@ -832,6 +832,37 @@ function format_comment($text) {
 	// [li]Item[/li]
 	$s = preg_replace("/\[li\]((\s|.)+?)\[\/li\]/i", "<li>\\1</li>", $s);
 
+	// Plain "* item" / "1. item" lists, as this SCEditor build's Source view
+	// actually generates for the Bullet List / Numbered List toolbar buttons
+	// (instead of [ul]/[ol]/[li] tags).
+	$lines = preg_split("/\r\n|\r|\n/", $s);
+	$out = array();
+	$i = 0;
+	$linecount = count($lines);
+	while ($i < $linecount) {
+		if (preg_match('/^\*\s+(.*)$/', $lines[$i], $m)) {
+			$items = array($m[1]);
+			$i++;
+			while ($i < $linecount && preg_match('/^\*\s+(.*)$/', $lines[$i], $m2)) {
+				$items[] = $m2[1];
+				$i++;
+			}
+			$out[] = "<ul><li>" . implode("</li><li>", $items) . "</li></ul>";
+		} elseif (preg_match('/^\d+\.\s+(.*)$/', $lines[$i], $m)) {
+			$items = array($m[1]);
+			$i++;
+			while ($i < $linecount && preg_match('/^\d+\.\s+(.*)$/', $lines[$i], $m2)) {
+				$items[] = $m2[1];
+				$i++;
+			}
+			$out[] = "<ol><li>" . implode("</li><li>", $items) . "</li></ol>";
+		} else {
+			$out[] = $lines[$i];
+			$i++;
+		}
+	}
+	$s = implode("\n", $out);
+
 	// [b]Bold[/b]
 	$s = preg_replace("/\[b\]((\s|.)+?)\[\/b\]/", "<b>\\1</b>", $s);
 
@@ -843,6 +874,15 @@ function format_comment($text) {
 
 	// [u]Underline[/u]
 	$s = preg_replace("/\[u\]((\s|.)+?)\[\/u\]/i", "<u>\\1</u>", $s);
+
+	// [s]Strikethrough[/s]
+	$s = preg_replace("/\[s\]((\s|.)+?)\[\/s\]/i", "<s>\\1</s>", $s);
+
+	// [youtube]VIDEO_ID[/youtube]
+	$s = preg_replace(
+		"/\[youtube\]([a-zA-Z0-9_-]{5,20})\[\/youtube\]/i",
+		"<div style='max-width:1280px'><iframe width='100%' height='720' style='aspect-ratio:16/9' src='https://www.youtube.com/embed/\\1' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>",
+		$s);
 
 	// [img]http://www/image.gif[/img]
 	$s = preg_replace("/\[img\]((http|https):\/\/[^\s'\"<>]+(\.gif|\.jpg|\.png|\.bmp|\.jpeg))\[\/img\]/i", "<img border='0' src=\"\\1\" alt='' />", $s);
