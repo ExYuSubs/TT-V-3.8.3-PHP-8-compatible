@@ -823,6 +823,15 @@ function format_comment($text) {
 	// [*]
 	$s = preg_replace("/\[\*\]/", "<li>", $s);
 
+	// [ul]List[/ul]
+	$s = preg_replace("/\[ul\]((\s|.)+?)\[\/ul\]/i", "<ul>\\1</ul>", $s);
+
+	// [ol]List[/ol]
+	$s = preg_replace("/\[ol\]((\s|.)+?)\[\/ol\]/i", "<ol>\\1</ol>", $s);
+
+	// [li]Item[/li]
+	$s = preg_replace("/\[li\]((\s|.)+?)\[\/li\]/i", "<li>\\1</li>", $s);
+
 	// [b]Bold[/b]
 	$s = preg_replace("/\[b\]((\s|.)+?)\[\/b\]/", "<b>\\1</b>", $s);
 
@@ -915,6 +924,10 @@ function format_comment($text) {
 
 	// Linebreaks
 	$s = nl2br($s);
+
+	// Clean up stray <br /> that nl2br() adds around/inside list tags
+	$s = preg_replace('/(<\/?(?:ul|ol|li)[^>]*>)(\s*<br\s*\/?>)+/i', '\\1', $s);
+	$s = preg_replace('/(<br\s*\/?>)+(\s*<\/?(?:ul|ol|li)[^>]*>)/i', '\\2', $s);
 
 	// Maintain spacing
 	$s = str_replace("  ", " &nbsp;", $s);
