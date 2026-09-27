@@ -7,8 +7,7 @@
 #       Created by M-Jay         #
 #       Modified by MicroMonkey, #
 #       Coco, Botanicar          #
-#       Theme: default       #
-#       Redesign: navy / cream   #
+#       Theme: default           #
 #================================#
 
 function_exists('T_') or die;
@@ -21,7 +20,7 @@ function_exists('T_') or die;
           <!-- END MAIN COLUM -->
           <?php if ($site_config["RIGHTNAV"]){ ?>
           <!-- START RIGHT COLUMN -->
-          <td valign="top" width="220">
+          <td valign="top" width="250">
 		  <?php rightblocks(); ?>
           </td>
           <!-- END RIGHT COLUMN -->

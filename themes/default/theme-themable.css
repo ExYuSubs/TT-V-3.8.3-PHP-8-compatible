@@ -1,5 +1,15 @@
 /*=====================================================================
-  theme-themable.css
+
+#================================#
+#       TorrentTrader 3.8.3      #
+#  http://torrenttrader.uk       #
+#--------------------------------#
+#       Created by M-Jay         #
+#       Modified by MicroMonkey, #
+#       Coco, Botanicar          #
+#       Theme: default           #
+#================================#
+
 =====================================================================*/
 
 @import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Inter:wght@400;500;600;700&display=swap');
@@ -29,10 +39,10 @@
 	--text-muted: #3a2f20;
 	--text-on-accent: #3a2f20;
 
-	--accent: #c9852f;      /* toplo bakarno/zlatna - primarna boja brenda */
+	--accent: #f5f5f5;      /* toplo bakarno/zlatna - primarna boja brenda */
 	--accent-hover: #b3742a;
 	--accent-soft: rgba(201, 133, 47, 0.14);
-	--accent-2: #4f7a68;    /* zagasita zelena - sekundarni akcenat */
+	--accent-2: #d5d5d5;    /* zagasita zelena - sekundarni akcenat */
 
 	--link: #a3661f;
 	--link-hover: #7d4e17;
@@ -106,12 +116,12 @@
 
 	--text: #e7edf7;
 	--text-muted: #92a2bf;
-	--text-on-accent: #16213c;
+	--text-on-accent: #f5f5f5;
 
-	--accent: #f0b86a;
+	--accent: #121F38;
 	--accent-hover: #f6c886;
 	--accent-soft: rgba(240, 184, 106, 0.14);
-	--accent-2: #6fb8a4;
+	--accent-2: #16274A;
 
 	--link: #7fb2f0;
 	--link-hover: #a8cdf7;
@@ -186,7 +196,7 @@
 		--text: #e7edf7;
 		--text-muted: #92a2bf;
 		--text-on-accent: #16213c;
-		--accent: #f0b86a;
+		--accent: #f5f5f5;
 		--accent-hover: #f6c886;
 		--accent-soft: rgba(240, 184, 106, 0.14);
 		--accent-2: #6fb8a4;
@@ -222,7 +232,7 @@
 	--border: rgba(66, 50, 26, 0.14);
 	--text: #3a2f20;
 	--muted: #3a2f20;
-	--accent: #c9852f;
+	--accent: #f5f5f5;
 }
 
 /* DARK */
@@ -233,7 +243,7 @@
 	--border: rgba(255, 255, 255, 0.08);
 	--text: #e7edf7;
 	--muted: #92a2bf;
-	--accent: #f0b86a;
+	--accent: #16274A;
 }
 
 /* ===== Varijable - light (default) ===== */

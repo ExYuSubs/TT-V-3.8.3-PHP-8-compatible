@@ -1,7 +1,14 @@
 /*
- * TorrentTrader theme toggle
- * Prebacuje body.dark-mode klasu, pamti izbor u localStorage
- * i mijenja ikonicu dugmeta: zuto sunce (light) / tamniji mjesec (dark)
+
+#================================#
+#       TorrentTrader 3.8.3      #
+#  http://torrenttrader.uk       #
+#--------------------------------#
+#       Created by M-Jay         #
+#       Modified by MicroMonkey, #
+#       Coco, Botanicar          #
+#       Theme: default           #
+#================================#
  */
 (function () {
 	var STORAGE_KEY = 'tt-theme';

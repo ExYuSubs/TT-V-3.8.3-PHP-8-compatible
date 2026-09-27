@@ -8,7 +8,6 @@
 #       Modified by MicroMonkey, #
 #       Coco, Botanicar          #
 #       Theme: default           #
-#       Redesign: navy / cream   #
 #================================#
 
 function_exists('T_') or die;
@@ -122,7 +121,7 @@ if (!$site_config["MEMBERSONLY"] || $CURUSER) {
      <tr>
           <?php if ($site_config["LEFTNAV"]){?>
           <!-- START LEFT COLUM -->
-          <td valign="top" width="220">
+          <td valign="top" width="250">
 		  <?php leftblocks();?>
           </td>
           <!-- END LEFT COLUM -->

@@ -1,11 +1,16 @@
 /*
- * micro-theme - toggle.js
- * -----------------------------------------------------------------
- * Prebacuje data-theme="light" / "dark" na <html>, pamti izbor u
- * localStorage i azurira aria-pressed na dugmetu. Ikonice (sunce/
- * mjesec) se prikazuju/skrivaju cisto preko CSS-a u theme.css,
- * na osnovu istog data-theme atributa - ovaj fajl ne dira ikonice.
+
+#================================#
+#       TorrentTrader 3.8.3      #
+#  http://torrenttrader.uk       #
+#--------------------------------#
+#       Created by M-Jay         #
+#       Modified by MicroMonkey, #
+#       Coco, Botanicar          #
+#       Theme: default           #
+#================================#
  */
+
 (function () {
 	var STORAGE_KEY = 'tt-theme';
 	var root = document.documentElement;

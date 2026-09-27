@@ -7,12 +7,7 @@
 #       Created by M-Jay         #
 #       Modified by MicroMonkey, #
 #       Coco, Botanicar          #
-#       Theme: micro-theme       #
-#       Redesign: navy / cream   #
-#================================#
-#  Napomena: funkcije i klase su namjerno identicne originalnom
-#  block.php-u jer ih pozivaju i druge (ne-teme) stranice sajta.
-#  Sav novi izgled dolazi iz theme.css / theme-themable.css.
+#       Theme: default           #
 #================================#
 
 //BEGIN FRAME
