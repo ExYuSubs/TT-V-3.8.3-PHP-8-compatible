@@ -40,7 +40,7 @@ if (!empty($_POST["username"]) && !empty($_POST["password"])) {
         if ($password_ok && password_needs_rehash($stored, PASSWORD_ARGON2ID, [
             'memory_cost' => 1<<16,
             'time_cost'   => 4,
-            'threads'     => 2,
+            'threads'     => 1,
         ])) {
             $newhash = tt_hash_password($input_pass);
             SQL_Query_exec("UPDATE users SET password = '".addslashes($newhash)."' WHERE id = ".(int)$row['id']);
