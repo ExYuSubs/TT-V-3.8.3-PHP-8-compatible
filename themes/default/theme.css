@@ -915,3 +915,35 @@ div.pp_pic_holder {
 .nav-item a:hover {
     border-bottom-color: orange !important;
 }
+
+//*** FORUM ***//
+
+.forum-main-btn,.forum-status-btn,.forum-post-btn{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;box-sizing:border-box;text-decoration:none!important;white-space:nowrap;line-height:1.2;border-radius:4px;transition:all .15s ease-in-out}
+.forum-main-btn{min-height:34px;padding:7px 13px!important;font-size:13px;font-weight:600}
+.forum-main-btn i{font-size:13px;margin-right:7px}
+.forum-status-btn{min-width:38px;height:32px;padding:6px 9px!important;margin:0 2px;font-size:13px}
+.forum-status-btn i{font-size:13px;margin:0!important}
+.forum-status-new{color:#fff!important;background:#5cb85c!important;border-color:#4cae4c!important}
+.forum-status-old{color:#ddd!important;background:#444!important;border-color:#666!important}
+.forum-status-locked{color:#fff!important;background:#d9534f!important;border-color:#d43f3a!important}
+.forum-post-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:5px}
+.forum-post-left-actions{display:flex;align-items:center;flex-wrap:wrap;gap:5px}
+.forum-post-btn{width:34px;height:32px;padding:5px!important;margin:0!important;font-size:13px}
+.forum-post-btn i{font-size:13px;margin:0!important}
+.forum-post-btn:hover,.forum-main-btn:hover,.forum-status-btn:hover{text-decoration:none!important;opacity:.92}
+.forum-action-profile{color:#fff!important;background:#337ab7!important;border-color:#2e6da4!important}
+.forum-action-pm{color:#fff!important;background:#5bc0de!important;border-color:#46b8da!important}
+.forum-action-report{color:#fff!important;background:#f0ad4e!important;border-color:#eea236!important}
+.forum-action-top{color:#fff!important;background:#777!important;border-color:#666!important}
+.forum-action-edit{color:#fff!important;background:#5bc0de!important;border-color:#46b8da!important}
+.forum-action-delete{color:#fff!important;background:#d9534f!important;border-color:#d43f3a!important}
+.forum-action-quote{color:#fff!important;background:#777!important;border-color:#666!important}
+.forum-action-reply{color:#fff!important;background:#5cb85c!important;border-color:#4cae4c!important}
+.forum-top-actions .forum-main-btn{min-width:92px}
+.forum-status-legend{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:8px 0}
+.forum-status-legend .forum-status-btn{margin:0}
+.forum-status-legend-label{margin-right:8px}
+@media(max-width:600px){.forum-post-actions{justify-content:flex-start;margin-top:5px}}
+.comment ul{list-style-type:disc!important;margin:10px 0 10px 24px!important;padding:0!important}
+.comment ol{list-style-type:decimal!important;margin:10px 0 10px 24px!important;padding:0!important}
+.comment ul li,.comment ol li{display:list-item!important;list-style-position:outside!important;margin:0 0 4px 0!important;padding:0!important}
